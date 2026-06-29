@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فرم سفارش گل</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+@font-face {
+  font-family: "is";
+  src: url("font/IRANSans.woff2") format("woff2");
+}
+
+body{
+  margin:0;
+ 
+  direction:rtl;
+
+ font-family: "is";
+  display:flex;
+  justify-content:center;
+
+  background: linear-gradient(135deg,#ffdde1,#ee9ca7,#e7b8c5,#f8d4df);
+
+  padding:30px 10px;
+}
+
+
+.card{
+  width:100%;
+  max-width:650px;
+
+  margin-top:40px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-radius:18px;
+  padding:20px;
+
+  border:1px solid rgba(46, 43, 43, 0.4);
+}
+
+/* عنوان */
+h2{
+  text-align:center;
+  margin:0 0 10px 0;
+  color:white;
+}
+
+/* اخطار */
+.warn{
+  text-align:center;
+  color:rgb(235, 212, 10);
+  font-size:13px;
+  background:rgba(0,0,0,0.25);
+  padding:6px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
+
+/* فرم */
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+
+label{
+  color:rgb(0, 0, 0);
+  font-size:13px;
+  margin-bottom:5px;
+  display:block;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border: 1px solid rgba(46, 43, 43, 0.4);
+  outline:none;
+  background:rgba(255,255,255,0.85);
+  text-align:right;
+  font-family: "is";
+}
+
+/* ساعت */
+.time-row{
+  display:flex;
+  gap:10px;
+}
+
+.time-row input{
+  flex:1;
+}
+input{
+  font-family: sans-serif;
+}
+
+/* دکمه */
+button{
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius:20px;
+  background:#03760c8d;
+  color:white;
+  font-family: sans-serif;
+  font-size:16px;
+}
+
+button:hover{
+  background:#03760c;
+  cursor:pointer;
+}
+
+button:active{
+
+  box-shadow:0 0 0 4px rgba(120, 120, 120, 0.5);
+ 
+}
+button::after{
+  background: #03760c8d;
+  transform: translate(-50%, -50%) scale(0.95);
+}
+/* موبایل */
+@media(max-width:480px){
+  .card{
+    margin-top:20px;
+    padding:15px;
+  }
+
+  .time-row{
+    flex-direction:row;
+  }
+}
+
+.row{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btnBlock{
+  display:flex;
+  gap: 10px;
+  left: center;
+}
+
+.smal{width: 30%;}
+.big{width: 60%;}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+
+  <h2>فرم ثبت سفارش</h2>
+
+
+  <div class="warn">⚠ لطفاً با دقت پر کنید</div>
+
+  <div class="grid">
+    <form id="orderForm">
+
+    <div>
+      <label>نام مشتری</label>
+      <input type="text" id="customerName" required>
+    </div>
+
+    <div>
+      <label>موبایل</label>
+      <input type="tel" id="mobile" required>
+    </div>
+
+    <div>
+      <label>تلفن</label>
+      <input type="tel" id="phone">
+    </div>
+
+    <div>
+      <label>نام گیرنده</label>
+      <input type="text" id="receiverName">
+    </div>
+
+    <div>
+      <label>آدرس تحویل</label>
+      <textarea rows="3" id="deliveryAddress" required></textarea>
+    </div>
+
+    <div>
+      <label>تاریخ تحویل</label>
+        <div class="row">
+          
+        <input type="datetimeb"  id="deliveryDate">
+        <a id="t" href="#" onclick="today()">فردا</a>
+
+                                            <script>
+                                              function perDate(numeric){
+                                                if(numeric<10) return "0"+numeric;
+                                                else return numeric;
+                                              }
+                                              function today(){
+
+
+                                                let part=new Intl.DateTimeFormat('fa-IR-u-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+
+                                                let day=Number(part.find(p=>p.type==="day").value);
+                                                day+=1;
+
+                                                let year=Number(part.find(p=>p.type==="year").value);
+                                                let mon=Number(part.find(p=>p.type==="month").value);
+
+
+                                              document.getElementById('deliveryDate').value= year+'/'+perDate(mon)+'/'+perDate(day);
+                                              }
+                                            
+                                            </script>
+      
+        </div>                         
+                           
+                            
+                          
+    </div>
+
+    <div>
+      <label>ساعت تحویل</label>
+      <div class="time-row">
+       از <input type="time" id="startTime">
+       تا <input type="time" id="endTime">
+      </div>
+    </div>
+
+    <div class="card">
+      <label>کدمحصول</label>
+                            
+
+                                      <div style="display:flex;">
+                                      <div>   <select id="codeProduct"></select></div>
+                                            <img id="preview" src="" 
+                                                style="
+                                                          width: 50px; height: 50px;
+                                                          border:#b0ff04e5;
+                                                          border-style: double;
+                                                          margin-right: 100px;"
+                                                onclick="">
+                                      </div>
+                              
+
+    </div>
+
+    <div>
+      <label>نوشته روی گل</label>
+      <input type="text" id="flowerNote" placeholder="(اختیاری)">
+    </div>
+
+    <div>
+      <label>توضیحات</label>
+      <textarea rows="3" id="comments" placeholder="(اختیاری)"></textarea>
+    </div>
+
+    <div class="btnBlock">
+      <button class="smal" type="button" onclick=location.href="index.html">بازگشت</button>
+    <button class="big" id="btn" type="button">ثبت سفارش </button>
+  </div>
+
+
+
+</form>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

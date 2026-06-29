@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد</title>
+    <h2 style="text-align: center;">پنل مدیریت</h2>
+    <hr>
+
+    <style>
+
+ 
+
+
+
+
+        @font-face {
+            font-family: "myfont" ;
+            src: url('/font/IRANSans.woff2') format('woff2');
+        }
+        
+       
+
+
+        .menu {
+            font-family: "myfont";
+            font-size: medium;
+            width: 200px;
+            background: #0194f0;
+            border-left: 1px solid #aaa;
+            padding: 5px;
+            position: fixed;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: bolder;
+        }
+
+        .menu a:hover {
+            background: #555555;
+        }
+
+        .vertical {
+            right: 220px;
+            
+            top: 80px;
+
+            width: 1px;
+            height: 500px;
+            border: 0px;
+            border-left: 1px solid black;
+            position: absolute;
+        }
+
+        .content {
+            flex: 1;
+            padding: 0 250px 0 10px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+
+        .card {
+            width: 100%;
+            height: 50%;
+            background: #eee;
+            border-radius: 10px;
+            padding: 10px;
+            font-family: sans-serif;
+            font-size: smaller;
+        }
+
+        .cardSearch {
+            font-family: 'myfont';
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 80%;
+            background: #d2eeff;
+            display: flex;
+            gap: 50px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border: 1px solid #a1d2e5;
+        }
+
+        .tableBox {
+            font-family: 'myfont';
+            font-size: smaller;
+            max-height: 50vh;
+            overflow: auto;
+        }
+
+        button {
+            background: #36a7e9a1;
+            color: #FFF;
+            padding: 10px;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 165, 241, 0.151);
+            font-family: 'myfont';
+        }
+        button:hover{
+            background: #d3f8ffb8;
+        }
+        button:active{
+            transform: scale(.90);
+        }
+
+        input {
+            width: 50%;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: royalblue;
+        }
+        label{
+            font-family: 'myfont' ,sans-serif;
+            font-size: small;
+        }
+
+        body {
+            margin: 0;
+            font-family: "myfont";
+
+        }
+
+
+
+
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        td {
+            white-space: nowrap;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+
+        tr:nth-child(even) {
+            background: #ffffffe8;
+        }
+
+        tr:nth-child(odd) {
+            background: #e8e6e6;
+        }
+
+        th {
+            position: sticky;
+            top: 0%;
+            color: #ffffff;
+            background: #007bffb3;
+            z-index: 1;
+
+        }
+
+
+
+
+
+
+                                /* *************  MOBILE  *******************/
+
+
+@media(max-width:650px){
+
+
+    body{
+        display:flex;
+        flex-direction:column;
+    }
+
+
+    .menu{
+        position:static;
+        width:100%;
+        box-sizing:border-box;
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+    }
+
+
+    .menu a{
+        padding:10px;
+        font-size:14px;
+    }
+
+
+    .vertical{
+        display:none;
+    }
+
+
+    .content{
+        width:100%;
+        box-sizing:border-box;
+        padding:10px;
+        flex-direction:column;
+    }
+
+
+    .cardSearch{
+    display: none;
+        width:100%;
+        height:auto;
+        box-sizing:border-box;
+        flex-direction:column;
+        gap:10px;
+        margin:10px 0;
+    }
+
+
+    .cardSearch div{
+        width:100%;
+    }
+
+    
+
+
+    input{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+
+    .card{
+        width:100%;
+        height:auto;
+        box-sizing:border-box;
+    }
+
+
+    .tableBox{
+        width:100%;
+        overflow-x:auto;
+    }
+
+
+    table{
+        min-width:800px;
+        
+    }
+
+
+
+     .cardSearch > div:last-child{
+        width:100%;
+        text-align:center;
+    }
+
+
+    .listProduct{
+        display: flex;
+        flex-direction: column;        
+    }
+
+    .sectionProducts{
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .sectionProducts{
+        width: 90%;;
+    }
+
+
+
+}
+
+                /***************************************************************************/
+
+
+
+
+
+.cardEdit{
+   display: none;
+ background: #555555e5;
+    position: fixed;
+    inset: 0;
+    z-index: 999;    
+
+   /* display: flex;*/
+    gap: 5px;
+    flex-direction: column;
+    overflow-y: auto;
+    align-items: center;
+    
+}
+.cardMini {
+    display: inherit;
+    flex-direction: column;
+    width: 400px;
+    max-width: 95%;
+    gap: 5px;
+    background: #84c7f1f5;
+    
+    padding-right:10px;
+    padding-left: 5px;
+}
+
+.cardMini input{
+    width: 70%;    
+}
+
+/**********************************************************/
+
+
+.listProduct{
+    background: violet;
+}
+
+
+.sectionProducts{
+
+    margin: 0 20%;
+}
+.showRowy{
+        margin:0 30% 0 40%;
+    }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="menu">
+        <a href="#">خانه</a>
+        <hr>
+        <a id="btnOrders" href="#">سفارشات</a>
+        <hr>
+        <a id="btnProducts" href="#">محصولات</a>
+    </div>
+
+    <hr class="vertical">
+
+
+    <section class="content" id="sectionOrders" style="display: none;">
+
+
+        <div id="cardShowRecord" class="cardEdit">
+            <div class="cardMini">
+                
+                <h4 style="display: inline-block;justify-content: center;">جزییات سفارش</h4>
+            
+
+
+            <div><label>وضعیت سفارش</label><input id=" "></div>
+            <div><label>فرستنده</label><input id="inp_nameSender"></div>
+            <div><label>مبایل</label><input id="inp_mobile"></div>
+            <div><label>تلفن</label><input id="inp_tel"></div>
+            <div><label>گیرنده</label><input id="inp_nameReciver"></div>            
+            <div><label>کدمحصول</label><input id="inp_codeProduct"></div>
+            <div><label>تاریخ</label><input id="inp_deliveryDate"></div>
+            <div><label>ازساعت</label><input id="inp_startTime"></div>
+            <div><label>تاساعت</label><input id="inp_endTime"></div>            
+            <div><label>آدرس</label><input id="inp_address"></div>
+            <div><label>کامنت</label><input id="inp_flowerNote"></div>
+            <div><label>کدپیگیری</label><input id="inp_codeOrder"></div>
+            <div><label>توضیحات</label><input id="inp_comment"></div>
+
+<div style="display:inline-flex;margin-inline:20%;">
+    <div ><button type="submit" id="btnEdit">ویرایش</button></div>
+    <div style="margin-right: 10% ;"><button type="submit" id="btnDel">حذف سفارش</button></div>
+    <div style="margin-right: 10%;"><button type="button" onclick="document.getElementById('cardShowRecord').style.display='none'">بازگشت</button></div>
+</div>
+
+
+                           </div>
+
+        </div>
+
+
+
+        <div class="cardSearch">
+
+            <div>
+                <label>کدرهگیری</label><input type="text" id="codeOrder" oninput="checkFeild()">
+            </div>
+            <div>
+                <label>شماره تلفن</label><input type="tel" id="mobile" oninput="checkFeild()">
+            </div>
+            <div>
+                <label>نام سفارش دهنده</label><input type="text" id="nameSender" oninput="checkFeild()">
+            </div>
+
+            <div>
+
+                <div><button type="button" id="btnFound" onclick="document.getElementById('cardShowRecord').style.display='flex'">یافتن</button></div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="card" >
+
+
+            <div class="tableBox">
+<label>همچنین میتوانیدروی سطرموردنظرکلیک کنید</label>
+
+
+                <table id="tableOrder">
+                  
+                    <thead>
+                        <tr class="row">
+                            <th>ردیف</th>
+                            <th>فرستنده</th>
+                            <th>گیرنده</th>
+                            <th>کدمحصول</th>
+                            <th>کدرهگیری</th>
+                            <th>مبایل</th>
+                            <th>تلفن</th>
+                            <th>تاریخ</th>
+                            <th>ازساعت</th>
+                            <th>تاساعت</th>
+                            <th>آدرس</th>
+                            <th>کامنت</th>
+                            <th>توضیحات</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+<div class="showRowy">
+    
+    <section id="sectionProducts" style="display:flex;justify-content:right;font-size:xx-small;" >
+
+        <div id="content" class="content">
+      <div><div class="newProduct" onclick="newProduct();">+محصول جدید</div></div>
+            <div >
+
+                <div id="listProduct" class="listProduct" style="margin-bottom: 50px;"></div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+    </section>
+</div>
+
+    <script src="administrator/po.js"></script>
+</body>
+
+</html>

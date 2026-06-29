@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>کنسلی سفارش</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <style>
+ form,button,input{
+    font-family: sans-serif;
+}
+
+
+body {
+    font-family:sans-serif;
+    font-size: 13px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* پس‌زمینه */
+    background: linear-gradient(135deg,#ffdde1,#ee9ca7,#e7b8c5,#f8d4df);
+    color: var(--text);
+}
+
+/* کارت شیشه‌ای */
+.card {
+    font: 1em sans-serif;
+    width: 100%;
+    max-width: 460px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border:1px solid rgba(46, 43, 43, 0.4);
+  border-radius: 18px;
+
+    padding: 2px 5px 20px;
+    
+    position: relative;
+    overflow: hidden;
+}
+
+/* نورهای رنگی روی شیشه */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(246, 187, 239, 0.71), transparent 60%),
+        radial-gradient(circle at 100% 0%, rgba(243, 160, 201, 0.22), transparent 60%);
+    opacity: 1;
+    pointer-events: none;
+}
+
+
+.warn{
+  text-align:center;
+  color:rgb(235, 212, 10);
+  font-size:13px;
+  background:rgba(0,0,0,0.25);
+  padding:6px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
+.actions{
+    display: flex;
+   padding-bottom: 50px;
+   padding-top: 20px;
+   justify-content: space-between;
+   font-family: sans-serif;
+    
+}
+
+input{
+  width:50%;
+  padding:10px;
+  border-radius:10px;
+  border: 1px solid rgba(46, 43, 43, 0.4);
+  outline:none;
+  background:rgba(255,255,255,0.85);
+  text-align:right;
+}
+
+button{
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius:20px;
+  background:#03760c8d;
+  color:white;
+  font-family: sans-serif;
+  font-size:16px;
+}
+
+button:hover{
+  background:#03760c;
+  cursor:pointer;
+}
+
+button:active{
+
+  box-shadow:0 0 0 4px rgba(120, 120, 120, 0.5);
+ 
+}
+button::after{
+  background: #03760c8d;
+  transform: translate(-50%, -50%) scale(0.95);
+}
+     
+h2{
+  text-align:center;
+  margin:0 0 10px 0;
+  color:white;
+}
+.btnPopup{
+    position:relative;
+    display: inline-flexbox;
+}
+.popup{
+    position: absolute;
+    top: 110%;
+    left: 20%;
+    color: white;
+    background: #f0191292;
+    display: none;
+}
+
+.call{
+   display: none;
+   position: fixed;
+   left: center;
+   border-radius: 20%;
+   
+   bottom: 5px;
+   width: 200px;
+   padding:1%;
+   text-align: center;
+   
+   background:rgba(255, 255, 255, 0.614);
+
+   animation: toup .5s ease-out;
+}
+@keyframes toup {
+    from{transform: translateY(100px);opacity: 0;}
+    to{transform: translateY(0);opacity: 1;}
+    
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-inner">
+           
+
+            <div class="title-row">
+                <div>
+                    <h2>لغو سفارش</h2>
+                    <div class="warn">⚠ لطفاً با دقت پر کنید</div>
+                    
+                </div>
+                
+            </div>
+
+            <form class="form" id="cancelForm" autocomplete="off" novalidate >
+                <div class="field">
+                    <label for="mobile">شماره مبایل</label>
+                    <div class="input-wrapper">
+                        <input
+                            id="mobile"
+                            
+                            type="tel"
+                            inputmode="tel"
+                            maxlength="11"                            
+                            required
+                        >
+                    </div>
+                    
+                </div>
+
+                <div class="field">
+                    <label for="code">کد پیگیری سفارش</label>
+                    <div class="input-wrapper">
+                        <input
+                            id="code"                            
+                            type="text"                           
+                            required
+                        >
+                    </div>
+                    
+                </div>
+
+                <div class="actions">
+                    <div > 
+                        <button type="button" id="resetBtn" onclick=window.location.href="index.html"> بازگشت </button>
+                    </div>
+                    <div class="btnPopup">
+
+                        <button type="button" id="submitBtn">                        
+                            ثبت درخواست کنسلی
+                        </button>
+                        <div id="popupNfound" class="popup"><span style="font-weight: bolder;"> ⚠ </span>سفارش یافت نشد</div>
+                        <div id="popupNfill" class="popup"><span style="font-weight: bolder;"> ⚠ </span>لطفامقادیرراکامل کنید</div>
+                    </div>
+                </div>
+
+                
+
+               
+            </form>
+
+            <div class="footer">
+                
+                <div>در صورت بروز مشکل با پشتیبانی  <span id="cal" style="cursor: pointer;font-weight: bolder; color: blue;" onclick="call();"> تماس </span>بگیرید.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="call" id="callCard">
+   <h4>تماس باما</h4>
+   <p ><a href="tel:+989152263849"> 09152263849 </a>📞</p>
+   <p>ID-t.me:   <a href="https://t.me/HcHobaki" target="_blank">@HcHobaki</a></p>
+   <p> Email:<a href="mailto:h.chobaki@gmail.com"> H.chobaki@gmail.com</a> ✉️</p>
+
+</div>
+
+<script>
+   
+    function call(){
+        
+    const callCard=document.getElementById('callCard');
+    callCard.style.display="block";
+    
+    }
+
+     document.addEventListener("click",(e)=>{
+        const callCar=document.getElementById('callCard');
+        if(!callCar.contains(e.target) && e.target!==document.getElementById('cal'))
+         callCar.style.display="none";
+    });
+    
+</script>
+
+
+
+
+<script src="orderCancel.js"></script>
+</body>
+</html>

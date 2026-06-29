@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>لاگین</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 12px;
+            background-color: #b4eb7d21;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 18px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+            white-space: nowrap;
+        }
+
+
+        .card {
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #a190f967;
+            box-shadow: 2px 5px 5px 0 #270909;
+
+        }
+
+        .section-b {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+
+
+        }
+
+        .section-a>div {
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+
+        }
+
+
+        button {
+            background-color: #14a9f4c4;
+            font-family: sans-serif;
+            padding: 5px 10px;
+            box-shadow: 0 2px 5px .5px;
+        }
+
+        button:hover {
+
+            background-color: #14a9f475;
+
+        }
+
+        button:active {
+
+            transform: scale(.95);
+
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                display: inline-flex;
+                width: 85%;
+                margin: 20px auto;
+
+            }
+
+            body {
+                font-size: 3vw;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <form id="loginForm">
+            <div class="section-a">
+                <div style="padding-bottom: 5px;">
+                    <label>نام کاربری</label>
+                    <input type="text" id="username">
+                </div>
+                <div>
+                    <label>رمزعبور</label>
+                    <input type="password" id="password">
+
+
+                </div>
+
+
+            </div>
+            <hr>
+            <div class="section-b">
+                <div style="padding: 5px;">
+                    <button type="submit">ورود</button>
+                </div>
+                <div>
+                    <button type="button" onclick=location.href="/orderFlower/index.html">بازگشت</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+    
+    <script src="logInAdmin.js"></script>
+</body>
+
+</html>
