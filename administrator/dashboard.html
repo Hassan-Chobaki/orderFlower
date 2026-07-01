@@ -67,7 +67,7 @@
         }
 
 
-        .card {
+        .card{
             width: 100%;
             height: 50%;
             background: #eee;
@@ -77,7 +77,7 @@
             font-size: smaller;
         }
 
-        .cardSearch {
+        .cardSearch{
             font-family: 'myfont';
             justify-content: center;
             align-items: center;
@@ -308,7 +308,7 @@
     align-items: center;
     
 }
-.cardMini {
+.cardMini{
     display: inherit;
     flex-direction: column;
     width: 400px;
@@ -333,13 +333,10 @@
 
 
 .sectionProducts{
-
-    margin: 0 20%;
+    display: flex;
+    width: 30%;
+    margin-right:20% ;
 }
-.showRowy{
-        margin:0 30% 0 40%;
-    }
-
 
 
     </style>
@@ -463,12 +460,29 @@
 
 
 
-<div class="showRowy">
-    
-    <section id="sectionProducts" style="display:flex;justify-content:right;font-size:xx-small;" >
 
-        <div id="content" class="content">
-      <div><div class="newProduct" onclick="newProduct();">+محصول جدید</div></div>
+    
+    <section id="sectionProducts" class="sectionProducts">
+ <div id="newProduct" onclick="newProduct;"><label style="cursor:pointer;">+  محصول جدید</label></div>
+
+    <div id="content" class="content">
+      <div id="cardNewProduct" class="cardNewProduct" style="width: max-content;height: max-content;background: #a1d2e5;">
+        <div id="formNewProduct" class="formNewProduct" style="display: flex;flex-direction: column;gap:20px;padding:4px;">
+            <div><label>نام محصول</label><input id="inp_nameProductForAdd"></div>
+            <div><label>کدمحصول</label><input id="inp_codeProductForAdd"></div>
+            <div><label>قیمت</label><input id="inp_priceProductForAdd"></div>
+            <div style="display:inline-flex; direction:ltr;gap:50px"><div style="border:1px double #000000a1;width: 100px 100px;">عکس<img id="picture"></div><input id="choosefile" type="file" accept="image/*" hidden ><button id="FILE" onclick="document.getElementById('choosefile').click();">آپلودعکس</button></div>
+
+        </div>
+        <hr>
+        <div style="display:flex;padding:10px 10px;gap:25px;">
+            <div><button id="btn_addProduct" onclick="addProduct();">ذخیره</button></div>
+            <div><button>بازگشت</button></div>
+        </div>
+      </div>
+
+      <div id="MESSAGE" style="display:flex;background: #f0150183;color: white;"></div>
+
             <div >
 
                 <div id="listProduct" class="listProduct" style="margin-bottom: 50px;"></div>
@@ -484,8 +498,7 @@
 
 
 
-    </section>
-</div>
+</section>
 
     <script src="administrator/po.js"></script>
 </body>

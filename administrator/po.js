@@ -1,4 +1,9 @@
-//window.document.addEventListener('load',null);
+window.document.addEventListener("DOMContentLoaded",showFirstTime);
+
+function showFirstTime(){
+   
+    document.getElementById('sectionProducts').style.display='none';
+}
 
 
 //********************************  PRODUCTS
@@ -8,6 +13,9 @@ document.getElementById('btnOrders').addEventListener('click', orders);
 document.getElementById('btnFound').addEventListener('click', actions);
 document.getElementById('btnEdit').addEventListener('click',edit);
 document.getElementById('btnDel').addEventListener('click',del);
+document.getElementById('newProduct').addEventListener('click',newProduct);
+document.getElementById('FILE').addEventListener('change',upload);
+
 
 let isLoadedTable=false;
 let isLoadedPanelProducts=false;
@@ -161,8 +169,9 @@ document.getElementById('cardShowRecord').style.display='flex';
 
 
 
-//*******************************************  PRODUCTs
-
+//********************************************************************  PRODUCTs
+//-----------------------------------------------------------------------------------
+//********************************************************************
 
 
 async function products() {
@@ -171,6 +180,8 @@ async function products() {
 
 document.getElementById('sectionProducts').style.display='flex';
 document.getElementById('sectionOrders').style.display='none';
+document.getElementById('cardNewProduct').style.display='none';
+
 
 if(isLoadedPanelProducts)
     return;
@@ -305,3 +316,91 @@ if(!confirm('محصول حذف شود؟')){
 
 
 function editProduct(){alert('edit');}
+
+
+function newProduct(){
+    
+    document.getElementById('sectionProducts').style='display:flex;width:100%;height:100%;background:#555555e5;flex:1;flex-wrap:wrap;z-index:555;overflow-y:auto;position:fixed';
+    
+    document.getElementById('cardNewProduct').style.display='flex';
+   
+    
+    
+    }
+
+    async function addProduct(){
+
+
+
+         const data={
+                name:document.getElementById('inp_nameProductForAdd').value,
+                codeProduct:document.getElementById('inp_codeProductForAdd').value,
+                price:document.getElementById('inp_priceProductForAdd').value,
+                file:upload()
+        }
+
+        const fd=new FormData();
+            fd.append('name',data.name);
+            fd.append('codeProduct',data.codeProduct);
+            fd.append('price',data.price);
+            fd.append('file',data.file);
+
+
+    
+    const res=await fetch('/newProduct',{
+        method:'POST',        
+        body:fd
+    })
+    
+    const result=await res.json();
+
+    console.log(data.file);
+
+    const m=document.getElementById('MESSAGE');
+
+switch(result){
+
+    case 'ok':
+        document.getElementById('MESSAGE').innerHTML='\t ⚠'+data.name+'\tمحصول جدید اضافه شد';
+        
+        m.style.display='block';
+
+                setTimeout(()=> m.style.display='none',2000);
+
+    break;
+
+
+
+    case 'no':
+
+                 document.getElementById('MESSAGE').innerHTML='⚠لطفا فرم را بطور کامل پرکنید';
+              
+        m.style.display='block';
+
+                setTimeout(()=> m.style.display='none',2000);
+
+    break;
+    
+
+
+    case 'fail':
+                 document.getElementById('MESSAGE').innerHTML=' ⚠خطای سرور\n-احتمالاکدمحصول تکراری است  ';
+                 
+                  m.style.display='block';
+
+                 setTimeout(()=> m.style.display='none',2000);
+    break;
+}
+   
+    }
+
+
+
+    function upload(){
+                                const f=document.getElementById('choosefile');
+                                const file=f.files[0];
+
+console.log(file.size);
+            return file;
+
+    }

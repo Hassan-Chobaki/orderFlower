@@ -1,15 +1,29 @@
 const express = require('express');
 const app = express();
 
+
 const session = require('express-session');
 const cors = require("cors");
 
+
+
+//********************************************      SAVE FILE IN PUBLIC FOLDER      ********************************************//
 const path = require('path');
+const multer = require('multer');
 
 require("dotenv").config();
 
+
+
+
+//**********************************************************************************************************************************
+
+
+
+
 app.use(express.json());
 app.use(express.text());
+app.use(express.urlencoded({extended:true}));
 
 app.use(cors({
     origin: true,
@@ -292,8 +306,44 @@ await db.query('DELETE FROM products WHERE codeProduct=?',[codeProduct]);res.sen
 
 })
 
+                                                 const storage = multer.diskStorage({
+                                                                destination: function (req, file, cb) {cb(null, '../../public/image');},
+                                                                filename: function (req, file, cb) {cb(null, Date.now() + '-' + file.originalname);}
+                                                                });
+
+                                                 const upload = multer({ storage: storage });
 
 
+
+
+
+
+app.post('/newProduct',upload.single('file'), async (req,res)=>{ 
+      console.log(req.body);
+
+    const {name,codeProduct,price}=req.body;    
+    const address='public/images/'+name;
+    const file=req.file;
+    const realName=req.file.originalname;
+
+
+try{
+    if(name && codeProduct && price && file){
+        await db.execute("INSERT INTO products (name,codeProduct,price,address,realName) VALUES (?,?,?,?,?)",[name,codeProduct,price,address,realName]);
+        res.json('ok');
+        return;
+    }
+    else{
+        res.json('no');
+        return;
+    }
+}
+catch(error){
+    res.json('fail');
+    console.log(error);
+}
+
+});
 
 
 
