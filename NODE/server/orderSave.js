@@ -320,7 +320,7 @@ await db.query('DELETE FROM products WHERE codeProduct=?',[codeProduct]);res.sen
 
 app.post('/newProduct',upload.single('file'), async (req,res)=>{ 
       console.log(req.body);
-
+console.log("^^^^^^^^^^^^^^^^^^^^^^^^");
     const {name,codeProduct,price}=req.body;    
     const address='public/images/'+name;
     const file=req.file;

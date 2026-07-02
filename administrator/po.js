@@ -1,8 +1,16 @@
+
+
 window.document.addEventListener("DOMContentLoaded",showFirstTime);
 
 function showFirstTime(){
    
+   
     document.getElementById('sectionProducts').style.display='none';
+    document.getElementById('sectionOrders').style.display='none';
+    document.getElementById('cardNewProduct').showModal();
+    if(document.getElementById('cardNewProduct').open)
+        document.getElementById('cardNewProduct').close();
+  
 }
 
 
@@ -27,7 +35,9 @@ async function orders() {
     document.getElementById('sectionOrders').style.display='flex';
     document.getElementById('sectionProducts').style.display='none';
 
-    if(isLoadedTable) return;
+
+
+  if(isLoadedTable) return;
     isLoadedTable=true;
 
   
@@ -177,10 +187,11 @@ document.getElementById('cardShowRecord').style.display='flex';
 async function products() {
 
 
-
+document.getElementById('cardNewProduct').showModal();
+document.getElementById('cardNewProduct').close(); 
 document.getElementById('sectionProducts').style.display='flex';
 document.getElementById('sectionOrders').style.display='none';
-document.getElementById('cardNewProduct').style.display='none';
+
 
 
 if(isLoadedPanelProducts)
@@ -197,17 +208,17 @@ const res=await fetch('/productsShowList',{
     let i=1;
 
     let sectionProducts=document.getElementById('sectionProducts');
-sectionProducts.style.display='flex';
-sectionProducts.style.flexDirection='column';
+
   
     
 
 
     data.forEach(row => {
 
-        
-        
         let rowOfProduct=document.createElement('div');
+        rowOfProduct.id='rowOfProduct';
+        
+        
 
         
 
@@ -233,8 +244,8 @@ sectionProducts.style.flexDirection='column';
 
 
                                               <div style="display:flex;gap:20px;justify-content:center;font-size:xx-large;">
-                                                <div id="productEdit" onclick="delProduct(${row.codeProduct});" style="cursor:pointer;display:block;background:#FFF00" >❌</div>
-                                                 <div id="productDel" onclick="editProduct();" style="cursor:pointer;background:#FFF00" >📝</div>
+                                                <div id="productDel" onclick="delProduct(${row.codeProduct});" style="cursor:pointer;display:block;background:#FFF00" >❌</div>
+                                                 <div id="productEdit" onclick="editProduct();" style="cursor:pointer;background:#FFF00" >📝</div>
                                              </div>   
 
 
@@ -257,8 +268,8 @@ sectionProducts.style.flexDirection='column';
 
 i++;
 
-        
-    }
+    }     
+    
 
 );//foreach
 
@@ -320,16 +331,21 @@ function editProduct(){alert('edit');}
 
 function newProduct(){
     
-    document.getElementById('sectionProducts').style='display:flex;width:100%;height:100%;background:#555555e5;flex:1;flex-wrap:wrap;z-index:555;overflow-y:auto;position:fixed';
-    
-    document.getElementById('cardNewProduct').style.display='flex';
+  
+   
+    document.getElementById('cardNewProduct').showModal();
    
     
     
     }
 
-    async function addProduct(){
 
+
+
+
+async function addProduct(){
+
+                                        
 
 
          const data={
@@ -344,6 +360,13 @@ function newProduct(){
             fd.append('codeProduct',data.codeProduct);
             fd.append('price',data.price);
             fd.append('file',data.file);
+ 
+
+console.log(fd.get('file'));
+if(fd.get('name')==='' || fd.get('codeProduct')==='' || fd.get('price')==='' || document.getElementById('choosefile').files.length===0){
+            alert('لطفا فرم را بطور کامل پرکنید');
+            return;
+        }    
 
 
     
@@ -354,14 +377,15 @@ function newProduct(){
     
     const result=await res.json();
 
-    console.log(data.file);
+    
 
     const m=document.getElementById('MESSAGE');
 
+    
 switch(result){
 
     case 'ok':
-        document.getElementById('MESSAGE').innerHTML='\t ⚠'+data.name+'\tمحصول جدید اضافه شد';
+        m.innerHTML='\t ⚠'+data.name+'\tمحصول جدید اضافه شد';
         
         m.style.display='block';
 
@@ -373,7 +397,7 @@ switch(result){
 
     case 'no':
 
-                 document.getElementById('MESSAGE').innerHTML='⚠لطفا فرم را بطور کامل پرکنید';
+        m.innerHTML='⚠لطفا فرم را بطور کامل پرکنید';
               
         m.style.display='block';
 
@@ -384,14 +408,16 @@ switch(result){
 
 
     case 'fail':
-                 document.getElementById('MESSAGE').innerHTML=' ⚠خطای سرور\n-احتمالاکدمحصول تکراری است  ';
+                 m.innerHTML=' ⚠خطای سرور\n-احتمالاکدمحصول تکراری است  ';
                  
                   m.style.display='block';
 
                  setTimeout(()=> m.style.display='none',2000);
     break;
 }
-   
+
+document.getElementById('choosefile').value='';
+    
     }
 
 
@@ -399,8 +425,12 @@ switch(result){
     function upload(){
                                 const f=document.getElementById('choosefile');
                                 const file=f.files[0];
+                                
+file.addEventListener('change',(e)=>{
+        document.getElementById('test').src=URL.createObjectURL(e.target.files[0]);
+    })
+    
+    return file;
 
-console.log(file.size);
-            return file;
-
-    }
+   
+}

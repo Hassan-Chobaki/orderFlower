@@ -20,8 +20,30 @@
             font-family: "myfont" ;
             src: url('/font/IRANSans.woff2') format('woff2');
         }
-        
-       
+
+
+
+
+span{
+    display:inline-block;
+    transition:.2s;
+    border:1px solid #999;
+    border-radius:8px;
+    padding:8px 15px;
+    font-size: xx-small;
+}
+
+span:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+
+
+
+
+
+
 
 
         .menu {
@@ -98,7 +120,7 @@
             overflow: auto;
         }
 
-        button {
+        button{
             background: #36a7e9a1;
             color: #FFF;
             padding: 10px;
@@ -274,14 +296,13 @@
         flex-direction: column;        
     }
 
-    .sectionProducts{
-        display: flex;
-        flex-direction: column;
-    }
+    
 
 
     .sectionProducts{
-        width: 90%;;
+        width: 100%;;
+        height: auto;
+        background: #c50cdd;
     }
 
 
@@ -294,7 +315,7 @@
 
 
 
-.cardEdit{
+.cardEdit  {
    display: none;
  background: #555555e5;
     position: fixed;
@@ -308,7 +329,7 @@
     align-items: center;
     
 }
-.cardMini{
+.cardMini {
     display: inherit;
     flex-direction: column;
     width: 400px;
@@ -324,22 +345,49 @@
     width: 70%;    
 }
 
+
 /**********************************************************/
 
 
-.listProduct{
-    background: violet;
-}
+/***************************************************************************
+/***************************************************************************
+*****************************************************************************/
 
 
 .sectionProducts{
-    display: flex;
-    width: 30%;
-    margin-right:20% ;
+    
+    margin:0 35vw;
+    display: flex;    
+    flex-direction: column;
+
+}
+
+
+.cardNewProduct{
+ 
+      
+    background: #84c7f1f5;
+        
+    gap: 5px;
+}
+
+dialog::backdrop{
+    background:rgba(0,0,0,.2);
+    backdrop-filter:blur(5px);
+}
+
+dialog{
+
+    border:none;
+    border-radius:15px;
+    padding:20px;
+    width:450px;
+
 }
 
 
     </style>
+    <img id="test" style="width: 100px;height: 100px;display: initial;z-index: 999999;">
 </head>
 
 <body>
@@ -463,41 +511,35 @@
 
     
     <section id="sectionProducts" class="sectionProducts">
- <div id="newProduct" onclick="newProduct;"><label style="cursor:pointer;">+  محصول جدید</label></div>
+                    <div id="newProduct" onclick="newProduct();"><label style="cursor:pointer;background: black;color:white;font-weight: bold;">+  محصول جدید</label></div>
 
-    <div id="content" class="content">
-      <div id="cardNewProduct" class="cardNewProduct" style="width: max-content;height: max-content;background: #a1d2e5;">
-        <div id="formNewProduct" class="formNewProduct" style="display: flex;flex-direction: column;gap:20px;padding:4px;">
+    
+      <dialog id="cardNewProduct" class="cardNewProduct">
+    
             <div><label>نام محصول</label><input id="inp_nameProductForAdd"></div>
             <div><label>کدمحصول</label><input id="inp_codeProductForAdd"></div>
             <div><label>قیمت</label><input id="inp_priceProductForAdd"></div>
-            <div style="display:inline-flex; direction:ltr;gap:50px"><div style="border:1px double #000000a1;width: 100px 100px;">عکس<img id="picture"></div><input id="choosefile" type="file" accept="image/*" hidden ><button id="FILE" onclick="document.getElementById('choosefile').click();">آپلودعکس</button></div>
+            <div style="display:flex;gap: 5%;align-items: center;"><div style="display: grid;place-items: center ;width: 100px; height: 100px;border:3px double #555555;">عکس<img style=" width:auto;height: auto; display: unset;" id="picture"></div><input id="choosefile" type="file" accept="image/*" hidden ><span style="background: black;color:white;border-radius: 10px;cursor: pointer;" id="FILE" onclick="document.getElementById('choosefile').click();"> آپلودعکس </span></div>
 
-        </div>
-        <hr>
-        <div style="display:flex;padding:10px 10px;gap:25px;">
+        
+        <hr style="width: 100%;">
+
+        <div style="display:inline-flex;gap:10%;justify-content: center;">
             <div><button id="btn_addProduct" onclick="addProduct();">ذخیره</button></div>
-            <div><button>بازگشت</button></div>
+            <div><button onclick="document.getElementById('cardNewProduct').close()">بازگشت</button></div>
         </div>
-      </div>
+      
+   
 
       <div id="MESSAGE" style="display:flex;background: #f0150183;color: white;"></div>
+</dialog>
 
-            <div >
+            <div id="cardProducts" class="cardProducts">
 
                 <div id="listProduct" class="listProduct" style="margin-bottom: 50px;"></div>
 
 
             </div>
-
-
-
-        </div>
-
-
-
-
-
 </section>
 
     <script src="administrator/po.js"></script>
