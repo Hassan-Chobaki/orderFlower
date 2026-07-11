@@ -3,7 +3,7 @@ async function ps() {
     
 
 
-const res=await fetch("http://192.168.1.101:3000/products",{
+const res=await fetch("http://192.168.1.103:3000/products",{
                                 method:"GET",
                                 headers:{"Content-Type":"application/json"}
                     });
@@ -16,6 +16,9 @@ console.log(data);
     const content = document.createElement("p");
     const price=document.createElement("p");
     frame.classList.add("mainFrame");
+
+    console.log("adress="+pics.address);
+    console.log("realName="+pics.realname);
 
     img.src = pics.address;
     img.style.width = "100%";
@@ -37,6 +40,9 @@ const order=document.createElement("a");
 order.textContent="سفارش این محصول";
 order.style.fontSize="200%";
 order.style.color="#f3ff0c";
+order.style.cursor="pointer";
+order.style.textShadow="1px 1px 2px black,0 0 1em blue, 0 0 0.2em blue; color: white;"
+order.style.transform="scale 2;";
 
 order.onclick=()=>{
     const prod={

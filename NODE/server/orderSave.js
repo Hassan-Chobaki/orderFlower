@@ -15,6 +15,9 @@ require("dotenv").config();
 
 
 
+const fs = require('fs/promises');
+
+
 
 //**********************************************************************************************************************************
 
@@ -23,7 +26,7 @@ require("dotenv").config();
 
 app.use(express.json());
 app.use(express.text());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
     origin: true,
@@ -243,107 +246,145 @@ app.patch('/orderEdit', async (req, res) => {
 
 
     } = req.body;
-   try{ 
-    const update=await db.query('UPDATE orders SET customerName=?,mobile=?,phone=?,receiverName=?,codeProduct=?,deliveryAddress=?,deliveryDate=?,startTime=?,endTime=?,flowerNote=?,code=?,comments=? WHERE code=?'
-        ,[nameSender,mobile,tel,nameReciver,codeProduct,address,deliveryDate,startTime,endTime,flowerNote,codeOrder,comment,codeOrder]);
+    try {
+        const update = await db.query('UPDATE orders SET customerName=?,mobile=?,phone=?,receiverName=?,codeProduct=?,deliveryAddress=?,deliveryDate=?,startTime=?,endTime=?,flowerNote=?,code=?,comments=? WHERE code=?'
+            , [nameSender, mobile, tel, nameReciver, codeProduct, address, deliveryDate, startTime, endTime, flowerNote, codeOrder, comment, codeOrder]);
 
-    res.json({ok:true,affectedRows:res.affectedRows});
+        res.json({ ok: true, affectedRows: res.affectedRows });
 
-   }catch(err){
-    res.status(500).json({err});
-    console.log(err);
-   }
+    } catch (err) {
+        res.status(500).json({ err });
+        console.log(err);
+    }
 
 
 });
 
 
 
-app.delete('/del',async(req,res)=>{
+app.delete('/del', async (req, res) => {
 
-const {code}=req.body;
-try{
-const del=await db.query('DELETE FROM orders WHERE code=?',[code]);
-res.send({ok:true});
-}catch(err){console.log(err);}
+    const { code } = req.body;
+    try {
+        const del = await db.query('DELETE FROM orders WHERE code=?', [code]);
+        res.send({ ok: true });
+    } catch (err) { console.log(err); }
 })
 
 
 
-app.get('/productsShowList',async(req,res)=>{
+app.get('/productsShowList', async (req, res) => {
 
 
-    const [rows]=await db.query('SELECT codeProduct,name,price FROM products');
+    const [rows] = await db.query('SELECT codeProduct,name,price,address,realName FROM products');
 
     res.json(rows);
 
-    
-    
-  });
 
 
-app.post('/confirmProduct',async(req,res)=>{
-    const codeProduct=req.body;
-    const OkNo=await db.query('SELECT * FROM products WHERE codeProduct=?',[codeProduct]);
-    console.log('confirm AND CODEpRODUCT=',OkNo,codeProduct);
-    if(OkNo)
-    {res.send('ok');}
-})  
+});
+
+//////////////////////////////////////////////////////////////////////////////////// DELETE PRODUCT
+
+let row=[];
+
+app.post('/confirmProduct', async (req, res) => {
+    const codeProduct = req.body;
+     [row]= await db.query('SELECT * FROM products WHERE codeProduct=?', [codeProduct]);
+console.log('len of row=',row.length,'\n\t\t\t\t\t\t\t codeProduct=',codeProduct);
+   
+    if (row.length>0) { res.send('ok');  console.log('confirm AND CODEpRODUCT=',codeProduct,'row=',row,'\n \n \n row[0].realname=',row[0].realName);}
+})
 
 
 
-app.delete('/delProduct',async(req,res)=>{
 
-const {codeProduct,OkNo}=req.body;
-
-console.log(codeProduct,OkNo);
-if(OkNo==='ok')
-try{
-await db.query('DELETE FROM products WHERE codeProduct=?',[codeProduct]);res.send('del');
-}catch(error){res.send('no');return;}
+                                                const storage = multer.diskStorage({
+                                                    destination: function (req, file, cb) { cb(null,'../../public/image'); },
+                                                    filename: function (req, file, cb) { cb(null, Date.now() + '-' + file.originalname); }
+                                                });
 
 
+
+
+app.delete('/delProduct', async (req, res) => {
+
+    const { codeProduct, OkNo } = req.body;
+
+    console.log(codeProduct, OkNo);
+    if (OkNo === 'ok')
+        try {
+           const [resultDel]= await db.query('DELETE FROM products WHERE codeProduct=?', [codeProduct]);
+           if(resultDel.affectedRows>0)
+                 res.send('del');
+           else
+                 res.send('fail');
+      
+           await fs.unlink('../../public/image/' + row[0].realName, err => { console.log('error unlink=',err) });
+
+            console.log('========================', row[0].realName, storage.destination);
+
+        } catch (error) {
+                            console.log('ERROR=',error);
+                             res.send('no'); return;
+                         }
 
 })
 
-                                                 const storage = multer.diskStorage({
-                                                                destination: function (req, file, cb) {cb(null, '../../public/image');},
-                                                                filename: function (req, file, cb) {cb(null, Date.now() + '-' + file.originalname);}
-                                                                });
-
-                                                 const upload = multer({ storage: storage });
 
 
 
+const upload = multer({ storage: storage });
 
 
 
-app.post('/newProduct',upload.single('file'), async (req,res)=>{ 
-      console.log(req.body);
-console.log("^^^^^^^^^^^^^^^^^^^^^^^^");
-    const {name,codeProduct,price}=req.body;    
-    const address='public/images/'+name;
-    const file=req.file;
-    const realName=req.file.originalname;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-try{
-    if(name && codeProduct && price && file){
-        await db.execute("INSERT INTO products (name,codeProduct,price,address,realName) VALUES (?,?,?,?,?)",[name,codeProduct,price,address,realName]);
-        res.json('ok');
-        return;
+
+app.post('/newProduct', upload.single('file'), async (req, res) => {
+
+    const { name, codeProduct, price } = req.body;
+    const ext = path.extname(req.file.originalname);
+
+    const address = req.file.destination + '/' + req.file.filename;
+    const file = req.file;
+    const realName = req.file.filename;
+
+
+    try {
+        if (name && codeProduct && price && file) {
+            await db.execute("INSERT INTO products (name,codeProduct,price,address,realName) VALUES (?,?,?,?,?)", [name, codeProduct, price, address, realName]);
+            res.json({ok:'ok'});
+            return;
+        }
+        else {
+            res.json({no:'no'});
+            return;
+        }
     }
-    else{
-        res.json('no');
-        return;
+    catch (error) {
+        res.json({fail:'fail'});
+        console.log(error);
     }
-}
-catch(error){
-    res.json('fail');
-    console.log(error);
-}
 
 });
+
+
+
+
+app.patch('/editProd',(req,res)=>{
+
+    const {name,codeProductBefor,price,codeProductAfter}=req.body;
+    console.log('old code',codeProductBefor,'\nnew code:',codeProductAfter);
+    const update=db.execute('UPDATE products SET name=?,codeProduct=?,price=? WHERE codeProduct=?',[name,codeProductAfter,price,codeProductBefor]);
+    res.json({success:'success'});
+
+})
+
+
+
+
 
 
 

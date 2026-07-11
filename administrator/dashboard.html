@@ -24,6 +24,121 @@
 
 
 
+                               /* *************  MOBILE  *******************/
+
+/*
+@media(max-width:650px){
+
+
+    body{
+        display:flex;
+        flex-direction:column;
+    }
+
+
+    .menu{
+        position:static;
+        width:100%;
+        box-sizing:border-box;
+        display:flex;
+        flex-direction:row;
+        justify-content:center;
+    }
+
+
+    .menu a{
+        padding:10px;
+        font-size:14px;
+    }
+
+
+    .vertical{
+        display:none;
+    }
+
+
+    .content{
+        width:100%;
+        box-sizing:border-box;
+        padding:10px;
+        flex-direction:column;
+    }
+
+
+    .cardSearch{
+     display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        gap: 10px;
+        margin: 10px 0;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+
+    .cardSearch div{
+        width:100%;
+    }
+
+    
+
+
+    input{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+
+    .card{
+        width:100%;
+        height:auto;
+        box-sizing:border-box;
+    }
+
+
+    .tableBox{
+        width:100%;
+        overflow-x:auto;
+    }
+
+
+    table{
+        min-width:800px;
+        
+    }
+
+
+
+     .cardSearch > div:last-child{
+        width:100%;
+        text-align:center;
+    }
+
+
+    .listProduct{
+        display: flex;
+        flex-direction: column;        
+    }
+
+    
+
+
+    .sectionProducts{
+        width: 100%;
+        height: auto;
+        margin: 0;
+       
+    }
+
+
+
+}
+
+*/
+
+
+
 span{
     display:inline-block;
     transition:.2s;
@@ -197,124 +312,6 @@ span:hover{
 
 
 
-
-
-
-                                /* *************  MOBILE  *******************/
-
-
-@media(max-width:650px){
-
-
-    body{
-        display:flex;
-        flex-direction:column;
-    }
-
-
-    .menu{
-        position:static;
-        width:100%;
-        box-sizing:border-box;
-        display:flex;
-        flex-direction:row;
-        justify-content:center;
-    }
-
-
-    .menu a{
-        padding:10px;
-        font-size:14px;
-    }
-
-
-    .vertical{
-        display:none;
-    }
-
-
-    .content{
-        width:100%;
-        box-sizing:border-box;
-        padding:10px;
-        flex-direction:column;
-    }
-
-
-    .cardSearch{
-    display: none;
-        width:100%;
-        height:auto;
-        box-sizing:border-box;
-        flex-direction:column;
-        gap:10px;
-        margin:10px 0;
-    }
-
-
-    .cardSearch div{
-        width:100%;
-    }
-
-    
-
-
-    input{
-        width:100%;
-        box-sizing:border-box;
-    }
-
-
-    .card{
-        width:100%;
-        height:auto;
-        box-sizing:border-box;
-    }
-
-
-    .tableBox{
-        width:100%;
-        overflow-x:auto;
-    }
-
-
-    table{
-        min-width:800px;
-        
-    }
-
-
-
-     .cardSearch > div:last-child{
-        width:100%;
-        text-align:center;
-    }
-
-
-    .listProduct{
-        display: flex;
-        flex-direction: column;        
-    }
-
-    
-
-
-    .sectionProducts{
-        width: 100%;;
-        height: auto;
-        background: #c50cdd;
-    }
-
-
-
-}
-
-                /***************************************************************************/
-
-
-
-
-
 .cardEdit  {
    display: none;
  background: #555555e5;
@@ -323,7 +320,9 @@ span:hover{
     z-index: 999;    
 
    /* display: flex;*/
-    gap: 5px;
+ 
+ 
+   gap: 5px;
     flex-direction: column;
     overflow-y: auto;
     align-items: center;
@@ -335,7 +334,7 @@ span:hover{
     width: 400px;
     max-width: 95%;
     gap: 5px;
-    background: #84c7f1f5;
+    background: #84c7f1e0;
     
     padding-right:10px;
     padding-left: 5px;
@@ -356,38 +355,160 @@ span:hover{
 
 .sectionProducts{
     
-    margin:0 35vw;
+    
+    margin:0 30vw;
     display: flex;    
     flex-direction: column;
 
 }
 
 
-.cardNewProduct{
- 
-      
-    background: #84c7f1f5;
+.cardNewProduct >*:not(hr,#MESSAGE){
+    padding: 5px;
+}  
+    .cardNewProduct{
         
-    gap: 5px;
-}
+        flex-direction: column; 
+        gap: 5px;
+    
+    
+        width:max-content;
+ 
+        background: #84c7f1e0;
+    }
+        
+    
+
 
 dialog::backdrop{
-    background:rgba(0,0,0,.2);
+    background:rgba(0,0,0,.5);
     backdrop-filter:blur(5px);
 }
 
-dialog{
+dialog[open]{
+   
+   overflow:hidden;
 
     border:none;
     border-radius:15px;
-    padding:20px;
-    width:450px;
+   
+    
 
 }
 
 
+
+
+
+
+
+@media (max-width: 650px) {
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu {
+        position: static;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        padding: 0;
+    }
+
+    .menu hr {
+        display: none;
+    }
+
+    .menu a {
+        flex: 1;
+        text-align: center;
+        padding: 14px 8px;
+        font-size: 14px;
+    }
+
+    .vertical {
+        display: none;
+    }
+
+    .content {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        flex-direction: column;
+    }
+
+    .cardSearch {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        gap: 10px;
+        margin: 10px 0;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .cardSearch div {
+        width: 100%;
+    }
+
+    .cardSearch > div:last-child {
+        width: 100%;
+        text-align: center;
+    }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .card {
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+
+    .tableBox {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 800px;
+    }
+
+    .sectionProducts {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .cardNewProduct {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    dialog[open] {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    #framePicture {
+        width: 120px !important;
+        height: 120px !important;
+    }
+}
+
+                /***************************************************************************/
+
+
     </style>
-    <img id="test" style="width: 100px;height: 100px;display: initial;z-index: 999999;">
+   
 </head>
 
 <body>
@@ -513,33 +634,49 @@ dialog{
     <section id="sectionProducts" class="sectionProducts">
                     <div id="newProduct" onclick="newProduct();"><label style="cursor:pointer;background: black;color:white;font-weight: bold;">+  محصول جدید</label></div>
 
-    
-      <dialog id="cardNewProduct" class="cardNewProduct">
+  
+<dialog id="cardNewProduct" class="cardNewProduct">
     
             <div><label>نام محصول</label><input id="inp_nameProductForAdd"></div>
             <div><label>کدمحصول</label><input id="inp_codeProductForAdd"></div>
             <div><label>قیمت</label><input id="inp_priceProductForAdd"></div>
-            <div style="display:flex;gap: 5%;align-items: center;"><div style="display: grid;place-items: center ;width: 100px; height: 100px;border:3px double #555555;">عکس<img style=" width:auto;height: auto; display: unset;" id="picture"></div><input id="choosefile" type="file" accept="image/*" hidden ><span style="background: black;color:white;border-radius: 10px;cursor: pointer;" id="FILE" onclick="document.getElementById('choosefile').click();"> آپلودعکس </span></div>
+
+
+
+            <div style="display:flex;gap: 5%;align-items: center;">
+                <div id="framePicture" style="align-items:center;display: flex ;justify-items: center;position:relative; overflow: hidden;color:#bbe2ffc5;place-items: center ;width:150px; height: 150px;border :3px double #555555;border-radius: 50%;">
+                    <small style="position: absolute;margin:30%">تصویر</small>
+                    <img style="border-radius: 50% ;position:absolute;width:100%;height: auto;" id="picture">
+                </div>
+                 <input id="choosefile" type="file" accept="image/*" onchange="upload();" hidden >
+                <span style="display:inline-flex;white-space: nowrap;;background: black;color:white;border-radius: 10px;cursor: pointer;" id="FILE" onclick="document.getElementById('choosefile').click()"> اضافه کردن تصویر</span>
+            </div>
 
         
-        <hr style="width: 100%;">
+        <hr style=" width: 100%;height: 0;">
 
-        <div style="display:inline-flex;gap:10%;justify-content: center;">
+        <div style="display:inline-flex;gap: 10%;justify-content: center;">
             <div><button id="btn_addProduct" onclick="addProduct();">ذخیره</button></div>
-            <div><button onclick="document.getElementById('cardNewProduct').close()">بازگشت</button></div>
+            <div><button onclick="backToMainpageProduct();">بازگشت</button></div>
         </div>
       
    
 
-      <div id="MESSAGE" style="display:flex;background: #f0150183;color: white;"></div>
+      <div id="MESSAGE" style="display:block;background: #f01501a9;color: white;font-size: x-small;"></div>
 </dialog>
 
-            <div id="cardProducts" class="cardProducts">
+<div id="listOfProduct">
+            
+    
+    <div id="cardProducts" class="cardProducts">
 
-                <div id="listProduct" class="listProduct" style="margin-bottom: 50px;"></div>
+                
+
+    </div>
+            
+</div>
 
 
-            </div>
 </section>
 
     <script src="administrator/po.js"></script>

@@ -1,6 +1,4 @@
-
-
-window.document.addEventListener("DOMContentLoaded",showFirstTime);
+ window.document.addEventListener("DOMContentLoaded",showFirstTime);
 
 function showFirstTime(){
    
@@ -23,6 +21,7 @@ document.getElementById('btnEdit').addEventListener('click',edit);
 document.getElementById('btnDel').addEventListener('click',del);
 document.getElementById('newProduct').addEventListener('click',newProduct);
 document.getElementById('FILE').addEventListener('change',upload);
+
 
 
 let isLoadedTable=false;
@@ -184,6 +183,8 @@ document.getElementById('cardShowRecord').style.display='flex';
 //********************************************************************
 
 
+
+
 async function products() {
 
 
@@ -197,68 +198,94 @@ document.getElementById('sectionOrders').style.display='none';
 if(isLoadedPanelProducts)
     return;
 isLoadedPanelProducts=true;
+
+
+
+
+
 const res=await fetch('/productsShowList',{
     method:'GET',
     headers:{'Content-Type':'text/json'},    
 })
 
     const data=await res.json();
-    console.log(data);
+    
 
     let i=1;
 
-    let sectionProducts=document.getElementById('sectionProducts');
-
-  
+    let sectionProducts=document.getElementById('listOfProduct');  
     
+  
+
+let listProduct=document.createElement('div');
+listProduct.innerHTML='';
+
+listProduct.innerHTML=`<div id="listProduct" style="display:grid;gap:20px;justify-content:center;align-items:center;"></div>`;
 
 
+document.getElementById('listOfProduct').innerHTML='';
+
+sectionProducts.appendChild(listProduct);
     data.forEach(row => {
 
         let rowOfProduct=document.createElement('div');
-        rowOfProduct.id='rowOfProduct';
+          rowOfProduct.id='rowOfProduct';
         
         
 
         
 
         rowOfProduct.innerHTML=` 
-                                        <div style="padding:10px;" id="${row.codeProduct}">
-        
+                                        <div style="padding:10px;display:grid;" id="${row.codeProduct}">
+                                            
                                                 <div style="
                                                             flex-direction:column;
                                                             padding:10px;
-                                                            background:#007bffb3;
+                                                            background:#84c7f1e0;
                                                             border-radius:20px;
                                                             box-shadow:0 2 5  rgb(0 0 0 0 0);
                                                 
                                                 
                                                 ">
 
-                                                        <div style="display:flex; flex-direction:column; gap:10px; font-size:large">⌘ ${i}♣<div> نام محصول<input value=${row.name} style="width:10ch;"></div>
-                                                                       <div> کدمحصول<input value=${row.codeProduct} style="width:5ch"></div>
-                                                                       <div> قیمت<input value=${row.price} style="width:10ch"></div>
+
+                            <div style="display:grid;grid-template-columns:2fr 2fr;gap:10px;justify-content:center;align-items:center;">
+                                                        <div style="display:flex; flex-direction:column; gap:10px; font-size:large">⌘ ${i}
+                                                                       <div> نام محصول<input id="inpName${row.codeProduct}" value=${row.name} style="width:10ch;"></div>
+                                                                       <div> کدمحصول<input id="inpCode${row.codeProduct}" value=${row.codeProduct} style="width:5ch"></div>
+                                                                       <div> قیمت<input id="inpPrice${row.codeProduct}" value=${row.price} style="width:10ch"></div>
                                                         </div>
+                                                        
+
+<div style="display:flex;">  
+
+            <img src="${row.address}" style="width:200px;height:200px;border-radius:50%;border:3px double #94b1ce9b;box-shadow:0 2 5  rgb(0 0 0 0 0);">
+
+</div>
+
+</div>
+
                                                         <hr>
 
 
 
                                               <div style="display:flex;gap:20px;justify-content:center;font-size:xx-large;">
-                                                <div id="productDel" onclick="delProduct(${row.codeProduct});" style="cursor:pointer;display:block;background:#FFF00" >❌</div>
-                                                 <div id="productEdit" onclick="editProduct();" style="cursor:pointer;background:#FFF00" >📝</div>
+                                                <div id="productDel" onclick="delProduct(${row.codeProduct});" style="cursor:pointer;display:block;background:#FFF00" ; title="حذف محصول";>❌</div>
+                                                 <div id="productEdit" onclick="editProduct(${row.codeProduct});" style="cursor:pointer;background:#FFF00" >📝</div>
                                              </div>   
 
 
 
 
-                                                </div>
+                                                
+
+                                            </div>
+
+
+
                                         </div>
                                             
-        <div>  
-
-            <img src="url:orderFlower                          /public/image/1.jpg">
-
-        </div>
+        
         
                               `;
 
@@ -273,9 +300,8 @@ i++;
 
 );//foreach
 
-
-document.getElementById('listProduct').remove();
-
+if(document.getElementById('listProduct')!==null)
+ document.getElementById('listProduct').remove();
 
 
 
@@ -286,6 +312,8 @@ document.getElementById('listProduct').remove();
 
 async function delProduct(codeProduct){
 
+
+
     const r=await fetch('/confirmProduct',{
         method:'POST',
         headers:{'Content-Type':'text/plain'},
@@ -293,21 +321,22 @@ async function delProduct(codeProduct){
 
     const confirmDel=await r.text();
     
-
+console.log('confirmDel=',confirmDel);
     if(confirmDel!=='ok')
     {
         alert('پیدانشد');
         return;
     }else
         
-if(!confirm('محصول حذف شود؟')){
+if(!confirm('\n\n\n\n\n\n '+'محصول حذف شود؟'+'\n')){
     return;
 }
+
 
     const result=await fetch('/delProduct',{
 
         method:'delete',
-        headers:{'Content-Type':'Application/json'},
+        headers:{'Content-Type':'application/json'},
         body:JSON.stringify({codeProduct:codeProduct,OkNo:confirmDel})
 
     });
@@ -318,6 +347,7 @@ if(!confirm('محصول حذف شود؟')){
         document.getElementById(codeProduct).remove();
         isLoadedPanelProducts=false;
         products();
+       
     }
     else
         alert('fail delete');
@@ -326,7 +356,43 @@ if(!confirm('محصول حذف شود؟')){
 
 
 
-function editProduct(){alert('edit');}
+async function editProduct(codeProduct){
+    alert('edit');
+    
+    const data={
+                name:document.getElementById("inpName"+codeProduct).value,
+                codeProduct:document.getElementById('inpCode'+codeProduct).value,
+                price:document.getElementById('inpPrice'+codeProduct).value
+    }
+    
+
+console.log(data,'NNNN:',codeProduct);
+
+const codeBefor=codeProduct;
+    const result=await fetch('/editProd',{
+        method:'patch',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({data,codeBefor})
+    })
+
+    const answer=await result.json();
+
+    if(answer==='successful')
+    {
+
+alert('update shooooooood');
+    }
+
+
+}
+
+
+
+
+
+
+
+
 
 
 function newProduct(){
@@ -343,9 +409,7 @@ function newProduct(){
 
 
 
-async function addProduct(){
-
-                                        
+async function addProduct(){                                        
 
 
          const data={
@@ -362,16 +426,22 @@ async function addProduct(){
             fd.append('file',data.file);
  
 
-console.log(fd.get('file'));
-if(fd.get('name')==='' || fd.get('codeProduct')==='' || fd.get('price')==='' || document.getElementById('choosefile').files.length===0){
-            alert('لطفا فرم را بطور کامل پرکنید');
-            return;
-        }    
+if(document.getElementById('inp_nameProductForAdd').value==='' || document.getElementById('inp_codeProductForAdd').value==='' || document.getElementById('inp_priceProductForAdd').value==='' || document.getElementById('choosefile').files.length===0 )
+{
+   const m= document.getElementById('MESSAGE');
+    m.innerHTML='&nbsp⚠&nbsp&nbspلطفا فرم را بطور کامل پرکنید';
+              
+        m.style.display='block';
+
+                setTimeout(()=> m.style.display='none',3000);
+    return;
+}
 
 
     
     const res=await fetch('/newProduct',{
-        method:'POST',        
+        method:'POST',     
+        headers:{'Type-Content':'text/json'},
         body:fd
     })
     
@@ -380,16 +450,21 @@ if(fd.get('name')==='' || fd.get('codeProduct')==='' || fd.get('price')==='' || 
     
 
     const m=document.getElementById('MESSAGE');
-
     
-switch(result){
+    if(window.innerWidth<=650)
+        m.style.width='100%';
+
+
+    console.log(result);
+    
+switch(result.ok || result.fail){
 
     case 'ok':
-        m.innerHTML='\t ⚠'+data.name+'\tمحصول جدید اضافه شد';
+        m.innerHTML='⚠ '+data.name+' محصول جدید اضافه شد.';
         
         m.style.display='block';
 
-                setTimeout(()=> m.style.display='none',2000);
+                setTimeout(()=> m.style.display='none',3000);
 
     break;
 
@@ -397,26 +472,30 @@ switch(result){
 
     case 'no':
 
-        m.innerHTML='⚠لطفا فرم را بطور کامل پرکنید';
+        m.innerHTML="&nbsp⚠&nbsp&nbspلطفا فرم را بطور کامل پرکنید";
               
         m.style.display='block';
 
-                setTimeout(()=> m.style.display='none',2000);
+                setTimeout(()=> m.style.display='none',3000);
 
     break;
     
 
 
     case 'fail':
-                 m.innerHTML=' ⚠خطای سرور\n-احتمالاکدمحصول تکراری است  ';
+                 m.innerHTML='⚠'+'&nbsp'+'کدمحصول تکراری است';
                  
                   m.style.display='block';
 
-                 setTimeout(()=> m.style.display='none',2000);
+                 setTimeout(()=> m.style.display='none',3000);
     break;
 }
 
 document.getElementById('choosefile').value='';
+document.getElementById('picture').src='';
+document.getElementById('inp_nameProductForAdd').value='';
+document.getElementById('inp_codeProductForAdd').value='';
+document.getElementById('inp_priceProductForAdd').value='';
     
     }
 
@@ -425,12 +504,28 @@ document.getElementById('choosefile').value='';
     function upload(){
                                 const f=document.getElementById('choosefile');
                                 const file=f.files[0];
-                                
-file.addEventListener('change',(e)=>{
-        document.getElementById('test').src=URL.createObjectURL(e.target.files[0]);
-    })
+ 
+    if(file){
+        
+        //document.getElementById('inp_nameProductForAdd').value=file.name;
+        document.getElementById('picture').src=URL.createObjectURL(file);
+        
+    }
+ 
+
     
     return file;
 
    
+}
+
+
+
+function backToMainpageProduct(){
+    document.getElementById('cardNewProduct').close(); 
+
+
+    isLoadedPanelProducts=false;
+    products();
+    
 }
