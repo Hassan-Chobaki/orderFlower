@@ -1,3 +1,5 @@
+//const e = require("express");
+
  window.document.addEventListener("DOMContentLoaded",showFirstTime);
 
 function showFirstTime(){
@@ -12,7 +14,7 @@ function showFirstTime(){
 }
 
 
-//********************************  PRODUCTS
+//********************************  Orders
 
 document.getElementById('btnProducts').addEventListener('click',products);
 document.getElementById('btnOrders').addEventListener('click', orders);
@@ -21,6 +23,15 @@ document.getElementById('btnEdit').addEventListener('click',edit);
 document.getElementById('btnDel').addEventListener('click',del);
 document.getElementById('newProduct').addEventListener('click',newProduct);
 document.getElementById('FILE').addEventListener('change',upload);
+document.getElementById('codeOrder').addEventListener('input',checkField);
+document.getElementById('mobile').addEventListener('input',checkField);
+document.getElementById('nameSender').addEventListener('input',checkField);
+
+
+
+
+
+
 
 
 
@@ -77,6 +88,9 @@ async function orders() {
                                             
                               
                               `;
+        
+
+        
         tr.addEventListener("click", selectThisRow);
 
         bod.appendChild(tr);
@@ -85,6 +99,11 @@ async function orders() {
     
 
     function selectThisRow() {
+        document.getElementById('tableOrder').querySelectorAll("tr").forEach(r=>
+                                                                            {r.style.backgroundColor=(r.rowIndex%2===0)?"#ffffff":"#e6f5ff"}
+                                                                            );
+        
+        this.style.background='#03811c80';
         document.getElementById("codeOrder").value = this.cells[4].innerText;
         document.getElementById("mobile").value = this.cells[5].innerText;
         document.getElementById("nameSender").value = this.cells[1].innerText;
@@ -159,22 +178,40 @@ alert('حذف شد');
 
 function actions() {
 
+    document.getElementById('cardShowRecord').style.display='flex';
+
 
 
 }
 
 function checkField() {
-    const codeOrder = document.getElementById('codeOrder').value;
-    const mobile = document.getElementById('mobile').value;
-    const nameSender = document.getElementById('nameSender').value;
+    const codeOrder = document.getElementById('codeOrder').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const nameSender = document.getElementById('nameSender').value.trim();
 
-    if(codeOrder==='' && mobile==='' && nameSender==='')
-        alert('EJRA SHOD FUNC checkfield');
+    const rows=document.querySelectorAll("#tableOrder tr");
 
-document.getElementById('cardShowRecord').style.display='flex';
+   rows.forEach(r=>{r.style.display=(
+                                        r.cells[4].textContent.includes(codeOrder)&&
+                                        r.cells[5].textContent.includes(mobile)&&
+                                        r.cells[1].textContent.includes(nameSender)
+                                    
+                                    
+                                                                                    )?"":"none"; });
+
+            
+        
+
+                    
+
+
     
 
 }
+
+
+
+
 
 
 
@@ -313,38 +350,19 @@ if(document.getElementById('listProduct')!==null)
 async function delProduct(codeProduct){
 
 
-
-    const r=await fetch('/confirmProduct',{
-        method:'POST',
-        headers:{'Content-Type':'text/plain'},
-        body:codeProduct});
-
-    const confirmDel=await r.text();
-    
-console.log('confirmDel=',confirmDel);
-    if(confirmDel!=='ok')
-    {
-        alert('پیدانشد');
-        return;
-    }else
-        
+       
 if(!confirm('\n\n\n\n\n\n '+'محصول حذف شود؟'+'\n')){
     return;
 }
-
-
-    const result=await fetch('/delProduct',{
-
-        method:'delete',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({codeProduct:codeProduct,OkNo:confirmDel})
-
+    const r=await fetch('/confirmProduct',{
+        method:'POST',
+        headers:{'Content-Type':'text/plain'},
+        body:codeProduct
     });
 
-    const answer=await result.text();
-
-    if(answer==='del'){
-        document.getElementById(codeProduct).remove();
+  const answer=await r.text();
+    if(answer){
+        //document.getElementById(codeProduct).remove();
         isLoadedPanelProducts=false;
         products();
        
@@ -430,7 +448,7 @@ if(document.getElementById('inp_nameProductForAdd').value==='' || document.getEl
 {
    const m= document.getElementById('MESSAGE');
     m.innerHTML='&nbsp⚠&nbsp&nbspلطفا فرم را بطور کامل پرکنید';
-              
+      m.style.background="#f60707eb";
         m.style.display='block';
 
                 setTimeout(()=> m.style.display='none',3000);
@@ -460,7 +478,8 @@ if(document.getElementById('inp_nameProductForAdd').value==='' || document.getEl
 switch(result.ok || result.fail){
 
     case 'ok':
-        m.innerHTML='⚠ '+data.name+' محصول جدید اضافه شد.';
+        m.innerHTML=' '+data.name+'&nbsp✓'+' محصول جدید اضافه شد.   ';
+        m.style.background=" #098e09eb";
         
         m.style.display='block';
 
@@ -473,7 +492,7 @@ switch(result.ok || result.fail){
     case 'no':
 
         m.innerHTML="&nbsp⚠&nbsp&nbspلطفا فرم را بطور کامل پرکنید";
-              
+        m.style.background=" #f60707eb";      
         m.style.display='block';
 
                 setTimeout(()=> m.style.display='none',3000);
@@ -484,7 +503,7 @@ switch(result.ok || result.fail){
 
     case 'fail':
                  m.innerHTML='⚠'+'&nbsp'+'کدمحصول تکراری است';
-                 
+                 m.style.background=" #f60707eb";
                   m.style.display='block';
 
                  setTimeout(()=> m.style.display='none',3000);

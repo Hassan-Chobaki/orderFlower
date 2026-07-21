@@ -1,67 +1,150 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>آلبوم </title>
+    <title>آلبوم </title>
 
     <style>
-        
-
         @font-face {
-            font-family:"P";
+            font-family: "P";
             src: url("font/IRANSans.woff2")format("woff2");
         }
 
-        body{
-            font-family:"P" !important;
-           font-size: 10px;
+        body {
+            font-family: "P" !important;
+            font-size: 10px;
         }
-        .title{
-            font-family:"P";
+
+        .title {
+            font-family: "P";
             width: 50%;
-            max-width:650px;
-            margin-top:4px;
+            max-width: 650px;
+            margin-top: 4px;
             background: rgba(232, 115, 207, 0.156);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-radius:18px;
+            border-radius: 18px;
             padding: 5px;
-            border:1px solid rgba(46, 43, 43, 0.4);
+            border: 1px solid rgba(46, 43, 43, 0.4);
             margin: 0 auto;
         }
 
-        .mainFrame{
-            width:100%;
-            max-width:70%;
-            margin-top:40px;
+        .mainFrame {
+           
+            width: 100%;
+            max-width: 70%;
+            margin-top: 40px;
             background: rgba(8, 8, 8, 0.53);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-radius:18px;
-            padding:20px;
-            border:2px solid #00f92539;
+            border-radius: 18px;
+            padding: 20px;
+            border: 2px solid #00f92539;
             margin: 20px auto;
             box-shadow: 0 10px 10px rgba(0, 0, 0, .5);
             color: whitesmoke;
         }
-        
+
+
+        .cardDetail[open] {
+
+            display: flex;
+            flex-direction:row;
+            justify-content: center;
+            
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            max-width: 85%;
+
+            color:black;
+            z-index: 999;
+            background: #FFF;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(1px);
+        }
+
+
+        .btnBack {
+
+            position: fixed;
+            width: 100px;
+            height: 50px;
+            z-index: 998;
+            bottom: 10%;
+            
+        }
+
+
+        button {
+
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            background: #03760c8d;
+            color: white;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #03760c;
+            cursor: pointer;
+        }
+
+        button:active {
+
+            box-shadow: 0 0 0 4px rgba(120, 120, 120, 0.5);
+
+        }
+
+        button::after {
+            background: #03760c8d;
+            transform: translate(-50%, -50%) scale(0.95);
+        }
         
 
     </style>
 </head>
+
 <body>
-<div class="title">
-    <h2>آلبوم</h2>
-    <p>در این بخش می توانید نمونه کارهای ما را مشاهده کنید.</p>
-    <p>برای سفارش گل و مشاهده نمونه کارها، لطفاً به صفحه سفارش گل مراجعه کنید.</p>
-</div>
-
-<div class="mainFrame" id="mainFrame"></div>
-   
+    <div class="title">
+        <h2>آلبوم</h2>
+        <p>در این بخش می توانید نمونه کارهای ما را مشاهده کنید.</p>
+        <p>برای سفارش گل و مشاهده نمونه کارها، لطفاً به صفحه سفارش گل مراجعه کنید.</p>
+    </div>
 
 
-<script src="album.js"></script>
+
+                                                            
+    <div><button class="btnBack" onclick="window.document.location.href='index.html'">بازگشت</button></div>
+
+
+
+
+
+                                                                                        <div id="flower" class="flower">
+                                                                                            <div class="mainFrame" id="mainFrame"></div>
+                                                                                        </div>
+
+
+
+
+
+
+
+
+    <dialog id="cardDetail" class="cardDetail"></dialog>
+
+
+    <script src="album.js"></script>
 </body>
+
 </html>

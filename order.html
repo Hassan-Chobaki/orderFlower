@@ -201,17 +201,26 @@ button::after{
         <div class="row">
           
         <input type="datetimeb"  id="deliveryDate">
-        <a id="t" href="#" onclick="today()">فردا</a>
+      <div >  <a id="t" href="#" onclick="today();return false;">فردا</a> </div><div id="nameDays" style="color: white;background: #03760d3e;"> </div>
 
                                             <script>
                                               function perDate(numeric){
                                                 if(numeric<10) return "0"+numeric;
                                                 else return numeric;
                                               }
+
+
+
                                               function today(){
 
+const format = new Intl.DateTimeFormat('fa-IR-u-nu-latn', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+});
 
-                                                let part=new Intl.DateTimeFormat('fa-IR-u-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+const part = format.formatToParts(new Date());
+                                                
 
                                                 let day=Number(part.find(p=>p.type==="day").value);
                                                 day+=1;
@@ -219,9 +228,28 @@ button::after{
                                                 let year=Number(part.find(p=>p.type==="year").value);
                                                 let mon=Number(part.find(p=>p.type==="month").value);
 
+                                                if(day>30 && (mon>6 && mon<12)){ day=1;mon++;}
+                                                else if(day>31 && mon<6){ day=1;mon++;}
+                                                else if(day<30 && mon>12){day=1;mon=1;year++;}
+
 
                                               document.getElementById('deliveryDate').value= year+'/'+perDate(mon)+'/'+perDate(day);
+
+
+
+
+
+                     
+
+
                                               }
+
+
+
+
+
+
+                                              
                                             
                                             </script>
       

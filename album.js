@@ -1,9 +1,9 @@
 
-async function ps() {
-    
+
+async function ps() {   
 
 
-const res=await fetch("http://192.168.1.103:3000/products",{
+const res=await fetch("http://192.168.1.101:3000/products",{
                                 method:"GET",
                                 headers:{"Content-Type":"application/json"}
                     });
@@ -30,10 +30,13 @@ console.log(data);
 
     content.style.whiteSpace="pre-line";
     content.textContent = pics.name+"\nکد"+pics.codeProduct;
-    price.textContent=pics.price;
+    price.textContent=new Intl.NumberFormat('fa-ir').format(pics.price)+' تومان ';
 
     content.style.textAlign="center";
     price.style.textAlign="center";
+
+
+
 
 const order=document.createElement("a");
 
@@ -42,7 +45,7 @@ order.style.fontSize="200%";
 order.style.color="#f3ff0c";
 order.style.cursor="pointer";
 order.style.textShadow="1px 1px 2px black,0 0 1em blue, 0 0 0.2em blue; color: white;"
-order.style.transform="scale 2;";
+order.style.transform="scale(1.5)";
 
 order.onclick=()=>{
     const prod={
@@ -59,7 +62,23 @@ order.onclick=()=>{
                    }
 
 
-   frame.append(img,content,price,order);
+
+
+
+const detail=document.createElement('a');
+detail.style.fontSize='14px';
+detail.innerHTML=" &nbsp; مشخصات &nbsp;";
+detail.style.position='fixed';
+detail.style.left=0;
+detail.style.cursor='pointer';
+
+detail.addEventListener('click',()=>{detailOfProduct(pics)});
+
+
+
+
+
+   frame.append(img,content,price,order,detail);
    
     document.getElementById("mainFrame").appendChild(frame);
 
@@ -70,9 +89,41 @@ img.addEventListener("click", function(){this.requestFullscreen();
 
 
 
-})
+})//foreach
 
 
 
 }
+
+
 ps();
+
+
+function detailOfProduct(oneRowProduct){
+
+
+const cardDetail=document.getElementById('cardDetail');
+cardDetail.showModal();
+cardDetail.innerHTML=`
+
+<div style='display:column';>
+
+                                                    <h2>    نام محصول <span style='background-color:black;color:white'> ${oneRowProduct.name} </span></h2>
+                                                    <h2>     قیمت <span style='background-color:black;color:white'> ${oneRowProduct.price} </span></h2>
+                                                    
+</div>
+                                                    <button 
+                                                            style="
+                                                                    text-align:center;
+                                                                    margin-top:auto;
+                                                                    margin-left=50px;
+                                                            "
+                                                            
+                                                            onclick="cardDetail.close();">بازگشت</button>
+
+
+                        `;
+
+
+
+}

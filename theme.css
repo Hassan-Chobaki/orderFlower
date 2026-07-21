@@ -1,0 +1,14 @@
+:root{
+
+                            --bgcolor:#FFF;
+                            --txtcolor:#FFF;
+                            --cardcolor:#FFF;
+                            --radius:12px;
+                            --shadow:0 5px 15px rgba(0,0,0,.5);
+                            --fontname:sans-sarif;
+                            --fontsizeS:10px;
+                            --fontsizeB:14px;
+                            --padding:12px;
+
+
+}

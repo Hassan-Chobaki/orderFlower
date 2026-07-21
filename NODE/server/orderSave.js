@@ -286,48 +286,36 @@ app.get('/productsShowList', async (req, res) => {
 
 //////////////////////////////////////////////////////////////////////////////////// DELETE PRODUCT
 
-let row=[];
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) { cb(null, '../../public/image'); },
+    filename: function (req, file, cb) { cb(null, Date.now() + '-' + file.originalname); }
+});
+
 
 app.post('/confirmProduct', async (req, res) => {
     const codeProduct = req.body;
-     [row]= await db.query('SELECT * FROM products WHERE codeProduct=?', [codeProduct]);
-console.log('len of row=',row.length,'\n\t\t\t\t\t\t\t codeProduct=',codeProduct);
-   
-    if (row.length>0) { res.send('ok');  console.log('confirm AND CODEpRODUCT=',codeProduct,'row=',row,'\n \n \n row[0].realname=',row[0].realName);}
-})
 
-
-
-
-                                                const storage = multer.diskStorage({
-                                                    destination: function (req, file, cb) { cb(null,'../../public/image'); },
-                                                    filename: function (req, file, cb) { cb(null, Date.now() + '-' + file.originalname); }
-                                                });
-
-
-
-
-app.delete('/delProduct', async (req, res) => {
-
-    const { codeProduct, OkNo } = req.body;
-
-    console.log(codeProduct, OkNo);
-    if (OkNo === 'ok')
         try {
-           const [resultDel]= await db.query('DELETE FROM products WHERE codeProduct=?', [codeProduct]);
-           if(resultDel.affectedRows>0)
-                 res.send('del');
-           else
-                 res.send('fail');
-      
-           await fs.unlink('../../public/image/' + row[0].realName, err => { console.log('error unlink=',err) });
 
-            console.log('========================', row[0].realName, storage.destination);
+            const [row] = await db.query('SELECT * FROM products WHERE codeProduct=?', [codeProduct]);
+            const [resultDel] = await db.query('DELETE FROM products WHERE codeProduct=?', [codeProduct]);
+            if (resultDel.affectedRows > 0)
+                res.send('true');
+            else{
+                res.send('false');
+                return;
+            }
+
+            await fs.unlink('../../public/image/' + row[0].realName, err => { console.log('error unlink=', err) });
+
+            
 
         } catch (error) {
-                            console.log('ERROR=',error);
-                             res.send('no'); return;
-                         }
+            
+           // res.json('no'); 
+            return;
+        }
+
 
 })
 
@@ -355,16 +343,16 @@ app.post('/newProduct', upload.single('file'), async (req, res) => {
     try {
         if (name && codeProduct && price && file) {
             await db.execute("INSERT INTO products (name,codeProduct,price,address,realName) VALUES (?,?,?,?,?)", [name, codeProduct, price, address, realName]);
-            res.json({ok:'ok'});
+            res.json({ ok: 'ok' });
             return;
         }
         else {
-            res.json({no:'no'});
+            res.json({ no: 'no' });
             return;
         }
     }
     catch (error) {
-        res.json({fail:'fail'});
+        res.json({ fail: 'fail' });
         console.log(error);
     }
 
@@ -373,12 +361,12 @@ app.post('/newProduct', upload.single('file'), async (req, res) => {
 
 
 
-app.patch('/editProd',(req,res)=>{
+app.patch('/editProd', (req, res) => {
 
-    const {name,codeProductBefor,price,codeProductAfter}=req.body;
-    console.log('old code',codeProductBefor,'\nnew code:',codeProductAfter);
-    const update=db.execute('UPDATE products SET name=?,codeProduct=?,price=? WHERE codeProduct=?',[name,codeProductAfter,price,codeProductBefor]);
-    res.json({success:'success'});
+    const { name, codeProductBefor, price, codeProductAfter } = req.body;
+    console.log('old code', codeProductBefor, '\nnew code:', codeProductAfter);
+    const update = db.execute('UPDATE products SET name=?,codeProduct=?,price=? WHERE codeProduct=?', [name, codeProductAfter, price, codeProductBefor]);
+    res.json({ success: 'success' });
 
 })
 

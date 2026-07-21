@@ -3,6 +3,13 @@
 
    */
 
+
+let weekDayName=new Intl.DateTimeFormat('fa-ir',{weekday:'long'}).format(new Date());     
+let monthName=new Intl.DateTimeFormat('fa-ir',{month:'long'}).format(new Date());
+document.getElementById('nameDays').innerHTML+='امروز'+weekDayName+ " ماه "+monthName;
+
+
+
 let prod=JSON.parse(sessionStorage.getItem("selectedProduct"));
 
 if(prod)

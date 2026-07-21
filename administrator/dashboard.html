@@ -281,6 +281,7 @@ span:hover{
         table {
             width: 100%;
             border-collapse: collapse;
+            
         }
 
 
@@ -298,7 +299,7 @@ span:hover{
         }
 
         tr:nth-child(odd) {
-            background: #e8e6e6;
+            background: #e6f5ff;
         }
 
         th {
@@ -435,16 +436,18 @@ dialog[open]{
     }
 
     .content {
-        width: 100%;
+        width: 90%;
         box-sizing: border-box;
         padding: 10px;
         flex-direction: column;
+        justify-items: center;
+        align-items: center;
     }
 
     .cardSearch {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 90%;
         height: auto;
         gap: 10px;
         margin: 10px 0;
@@ -453,21 +456,21 @@ dialog[open]{
     }
 
     .cardSearch div {
-        width: 100%;
+        width: 90%;
     }
 
     .cardSearch > div:last-child {
-        width: 100%;
+        width: 90%;
         text-align: center;
     }
 
     input {
-        width: 100%;
+        width: 90%;
         box-sizing: border-box;
     }
 
     .card {
-        width: 100%;
+        width: 90%;
         height: auto;
         box-sizing: border-box;
     }
@@ -479,23 +482,24 @@ dialog[open]{
 
     table {
         min-width: 800px;
+
     }
 
     .sectionProducts {
-        width: 100%;
+        width: 90%;
         margin: 0;
         padding: 10px;
         box-sizing: border-box;
     }
 
     .cardNewProduct {
-        width: 95%;
-        max-width: 100%;
+        width: 85%;
+        max-width: 90%;
     }
 
     dialog[open] {
-        width: 95%;
-        max-width: 100%;
+        width: 85%;
+        max-width: 90%;
     }
 
     #framePicture {
@@ -506,6 +510,7 @@ dialog[open]{
 
                 /***************************************************************************/
 
+                
 
     </style>
    
@@ -563,18 +568,18 @@ dialog[open]{
         <div class="cardSearch">
 
             <div>
-                <label>کدرهگیری</label><input type="text" id="codeOrder" oninput="checkFeild()">
+                <label>کدرهگیری</label><input type="text" id="codeOrder" inputmode="checkFeild()">
             </div>
             <div>
-                <label>شماره تلفن</label><input type="tel" id="mobile" oninput="checkFeild()">
+                <label>مبایل فرستنده</label><input type="tel" id="mobile" inputmode="checkFeild()">
             </div>
             <div>
-                <label>نام سفارش دهنده</label><input type="text" id="nameSender" oninput="checkFeild()">
+                <label>نام سفارش دهنده</label><input type="text" id="nameSender" inputmode="checkFeild()">
             </div>
 
             <div>
 
-                <div><button type="button" id="btnFound" onclick="document.getElementById('cardShowRecord').style.display='flex'">یافتن</button></div>
+                <div><button type="button" id="btnFound" onclick="">انتخاب</button></div>
 
             </div>
 
@@ -594,10 +599,10 @@ dialog[open]{
 <label>همچنین میتوانیدروی سطرموردنظرکلیک کنید</label>
 
 
-                <table id="tableOrder">
+                <table id="tableOrder" >
                   
                     <thead>
-                        <tr class="row">
+                        <tr class="row"  id="rowTable">
                             <th>ردیف</th>
                             <th>فرستنده</th>
                             <th>گیرنده</th>
@@ -662,7 +667,7 @@ dialog[open]{
       
    
 
-      <div id="MESSAGE" style="display:block;background: #f01501a9;color: white;font-size: x-small;"></div>
+      <div id="MESSAGE" style="display:block;color: white;font-size: x-small;"></div>
 </dialog>
 
 <div id="listOfProduct">
