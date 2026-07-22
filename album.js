@@ -3,7 +3,7 @@
 async function ps() {   
 
 
-const res=await fetch("http://192.168.1.101:3000/products",{
+const res=await fetch("https://orderflowers.onrender.com/products",{
                                 method:"GET",
                                 headers:{"Content-Type":"application/json"}
                     });
