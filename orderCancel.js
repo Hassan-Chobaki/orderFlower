@@ -23,7 +23,7 @@ let promt="fail";
                 
             }
 
-                            const response=await fetch("http://192.168.1.101:3000/deleteOrder",{
+                            const response=await fetch("https://orderflowers.onrender.com/deleteOrder",{
                                 method:"POST",
                                 headers:{"Content-Type":"application/json"},
                                 body:JSON.stringify({mobile:mobile,code:code})
