@@ -376,9 +376,8 @@ app.patch('/editProd', (req, res) => {
 
 
 
-app.listen(3000, "0.0.0.0", () => {
+const PORT = process.env.PORT || 3000;
 
-    console.log('start server....');
-
-
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`start server on port ${PORT}`);
 });
