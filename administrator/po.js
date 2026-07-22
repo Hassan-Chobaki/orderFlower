@@ -52,7 +52,7 @@ async function orders() {
 
   
 
-    const res = await fetch('/ordersShowList',
+    const res = await fetch('https://orderflowers.onrender.com/ordersShowList',
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
@@ -143,7 +143,7 @@ async function edit(){
        const comment= document.getElementById('inp_comment').value;
 
      
-    const res=await fetch('/orderEdit',{
+    const res=await fetch('https://orderflowers.onrender.com/orderEdit',{
         method:'PATCH',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({nameSender:nameSender,mobile:mobile,tel:tel,nameReciver:nameReciver,codeProduct:codeProduct,address:address,deliveryDate:deliveryDate,startTime:startTime,endTime:endTime,flowerNote:flowerNote,codeOrder:codeOrder,comment:comment})
@@ -161,7 +161,7 @@ async function del(){
 
 const codeOrder=document.getElementById('inp_codeOrder').value;
 
-const res=await fetch('/del',{
+const res=await fetch('https://orderflowers.onrender.com/del',{
     method:'DELETE',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({code:codeOrder})
@@ -240,7 +240,7 @@ isLoadedPanelProducts=true;
 
 
 
-const res=await fetch('/productsShowList',{
+const res=await fetch('https://orderflowers.onrender.com/productsShowList',{
     method:'GET',
     headers:{'Content-Type':'text/json'},    
 })
@@ -354,7 +354,7 @@ async function delProduct(codeProduct){
 if(!confirm('\n\n\n\n\n\n '+'محصول حذف شود؟'+'\n')){
     return;
 }
-    const r=await fetch('/confirmProduct',{
+    const r=await fetch('https://orderflowers.onrender.com/confirmProduct',{
         method:'POST',
         headers:{'Content-Type':'text/plain'},
         body:codeProduct
@@ -387,7 +387,7 @@ async function editProduct(codeProduct){
 console.log(data,'NNNN:',codeProduct);
 
 const codeBefor=codeProduct;
-    const result=await fetch('/editProd',{
+    const result=await fetch('https://orderflowers.onrender.com/editProd',{
         method:'patch',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({data,codeBefor})
@@ -457,7 +457,7 @@ if(document.getElementById('inp_nameProductForAdd').value==='' || document.getEl
 
 
     
-    const res=await fetch('/newProduct',{
+    const res=await fetch('https://orderflowers.onrender.com/newProduct',{
         method:'POST',     
         headers:{'Type-Content':'text/json'},
         body:fd
