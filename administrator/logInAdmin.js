@@ -13,7 +13,7 @@ form.addEventListener('submit',async(e)=>{
 
 
 
-                        let res=await fetch("admin/login",{
+                        let res=await fetch("/admin/login",{
                             method:"POST",
                             headers:{"Content-Type":"application/json"},
                             body:JSON.stringify(Data)
