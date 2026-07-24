@@ -30,7 +30,7 @@ if(prod)
 
 async function fillRecord() {
     
-const res=await fetch ("http://192.168.1.101:3000/products");//,{method:'GET',headers:{'Content-Type':'Application-json'}});
+const res=await fetch ("https://orderflowers.onrender.com/products");//,{method:'GET',headers:{'Content-Type':'Application-json'}});
 const data= await res.json();
    
  const elementSelect=document.getElementById("codeProduct");
@@ -158,7 +158,7 @@ async function sendData() {
                          try{
 
 
-                                const result=await fetch('http://192.168.1.101:3000/orderSave',{
+                                const result=await fetch('https://orderflowers.onrender.com/orderSave',{
                                     method:'POST',
                                     headers:{   
                                         'Content-Type': 'application/json'
