@@ -4,9 +4,9 @@
    */
 
 
-let weekDayName=new Intl.DateTimeFormat('fa-ir',{weekday:'long'}).format(new Date());     
-let monthName=new Intl.DateTimeFormat('fa-ir',{month:'long'}).format(new Date());
-document.getElementById('nameDays').innerHTML+='امروز'+weekDayName+ " ماه "+monthName;
+let dateName=new Intl.DateTimeFormat('fa-ir',{dateStyle:'full'}).format(new Date());     
+//let monthName=new Intl.DateTimeFormat('fa-ir',{month:'long'}).format(new Date());
+document.getElementById('nameDays').innerHTML+="&nbspامروز&nbsp "+dateName;
 
 
 
@@ -30,7 +30,7 @@ if(prod)
 
 async function fillRecord() {
     
-const res=await fetch ("https://orderflowers.onrender.com/products");//,{method:'GET',headers:{'Content-Type':'Application-json'}});
+const res=await fetch ("http://192.168.1.101:3000/products");//,{method:'GET',headers:{'Content-Type':'Application-json'}});
 const data= await res.json();
    
  const elementSelect=document.getElementById("codeProduct");
@@ -158,7 +158,7 @@ async function sendData() {
                          try{
 
 
-                                const result=await fetch('https://orderflowers.onrender.com/orderSave',{
+                                const result=await fetch('http://192.168.1.101:3000/orderSave',{
                                     method:'POST',
                                     headers:{   
                                         'Content-Type': 'application/json'
