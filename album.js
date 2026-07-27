@@ -41,7 +41,10 @@ console.log(data);
 const order=document.createElement("a");
 
 order.textContent="سفارش این محصول";
+  if(window.innerWidth>650)
 order.style.fontSize="200%";
+  else
+    order.style.fontSize="30%";
 order.style.color="#f3ff0c";
 order.style.cursor="pointer";
 order.style.textShadow="1px 1px 2px black,0 0 1em blue, 0 0 0.2em blue; color: white;"
