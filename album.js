@@ -8,7 +8,7 @@ const res=await fetch("https://orderflowers.onrender.com/products",{
                                 headers:{"Content-Type":"application/json"}
                     });
 const data=await res.json();
-
+document.getElementById('loading').style.display='none';
 data.forEach(pics => {
 console.log(data);
     const img = document.createElement("img");
