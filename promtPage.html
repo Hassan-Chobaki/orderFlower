@@ -94,7 +94,8 @@ const msg=new URLSearchParams(window.location.search).get("msg");
 
     if(msg==="register"){
      document.getElementById('h4').textContent="سفارش باموفقیت ثبت شد";
-     document.getElementById('code').textContent=Number(sessionStorage.getItem("orderCode")).toLocaleString("fa-IR");
+     document.getElementById('code').textContent=Number(sessionStorage.getItem("orderCode"))//.toLocaleString("fa-IR",{useGrouping:false);
+                                                                      .replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);                      
      document.getElementById('pcode').textContent="کدپیگیری";
      document.getElementById('plz').textContent=" لطفاکدرانزدخودحفظ بفرمایید ";
      
