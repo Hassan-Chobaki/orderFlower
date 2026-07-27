@@ -83,7 +83,8 @@ button::after{
     <div class="container">
         <h4 id="h4"></h4>
         <p id="p"> </p><span id="code" style="background-color: rgb(209, 233, 174) ;color: rgb(255, 0, 0);"></span>
-<div>
+        <p id='plz'></p>
+    <div>
         <button class="btnBack" type="button" onclick=location.href="index.html">بازگشت</button>
 </div>
 
@@ -93,8 +94,9 @@ const msg=new URLSearchParams(window.location.search).get("msg");
 
     if(msg==="register"){
      document.getElementById('h4').textContent="سفارش باموفقیت ثبت شد";
-     document.getElementById('code').textContent=sessionStorage.getItem("orderCode");
+     document.getElementById('code').textContent=sessionStorage.getItem("orderCode").toLocalString("fa-IR");
      document.getElementById('p').textContent="کدپیگیری";
+     document.getElementById('plz').textContent=" لطفاکدرانزدخودحفظ بفرمایید ";
      
     }
     else if(msg==="cancel")
