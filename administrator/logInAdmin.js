@@ -13,7 +13,7 @@ form.addEventListener('submit',async(e)=>{
 
 
 
-                        let res=await fetch("https://orderflowers.onrender.com/admin/login",{
+                        let res=await fetch("http://192.168.1.100:3000/admin/login",{
                             method:"POST",
                             headers:{"Content-Type":"application/json"},
                             body:JSON.stringify(Data)
@@ -29,7 +29,7 @@ form.addEventListener('submit',async(e)=>{
                                                             let result=await res.json();
                                                             console.log(result);
                                                             if(result.success)
-                                                                location.href='https://orderflowers.onrender.com/path-rootuser';
+                                                                location.href='http://192.168.1.100:3000/path-rootuser';
                                                             else
                                                             {
                                                                 alert("اشکال");

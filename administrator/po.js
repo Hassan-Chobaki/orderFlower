@@ -52,7 +52,7 @@ async function orders() {
 
   
 
-    const res = await fetch('https://orderflowers.onrender.com/ordersShowList',
+    const res = await fetch('/ordersShowList',
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
@@ -70,9 +70,30 @@ async function orders() {
     
     let i = 1;
     data.forEach(row => {
+
+                                                                 let msg='درحال بررسی';
+                                                                        switch (row.statusOrder){
+                                                                        case '0':
+                                                                                 msg=' بررسی';
+                                                                            break;
+                                                                        case '1':
+                                                                                 msg='ارسال';
+                                                                                break;
+                                                                         case '2':
+                                                                                 msg=' موفق';
+                                                                                break;
+                                                                        case '3':
+                                                                                 msg='لغو';
+                                                                            break;
+
+                                                                        }
+
+
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
                                             <td>${i++}</td>
+                                            <td>${msg}</td>
                                             <td>${row.customerName}</td>
                                             <td>${row.receiverName}</td>
                                             <td>${row.codeProduct}</td>
@@ -104,22 +125,26 @@ async function orders() {
                                                                             );
         
         this.style.background='#03811c80';
-        document.getElementById("codeOrder").value = this.cells[4].innerText;
-        document.getElementById("mobile").value = this.cells[5].innerText;
-        document.getElementById("nameSender").value = this.cells[1].innerText;
+        
+        document.getElementById("codeOrder").value = this.cells[5].innerText;
+        document.getElementById("mobile").value = this.cells[6].innerText;
+        document.getElementById("nameSender").value = this.cells[2].innerText;
 
-        document.getElementById('inp_nameSender').value=this.cells[1].innerText;
-        document.getElementById('inp_address').value=this.cells[10].innerText;
-        document.getElementById('inp_mobile').value=this.cells[5].innerText;
-        document.getElementById('inp_tel').value=this.cells[6].innerText;
-        document.getElementById('inp_nameReciver').value=this.cells[2].innerText;
-        document.getElementById('inp_codeProduct').value=this.cells[3].innerText;
-        document.getElementById('inp_deliveryDate').value=this.cells[7].innerText;
-        document.getElementById('inp_startTime').value=this.cells[8].innerText;
-        document.getElementById('inp_endTime').value=this.cells[9].innerText;
-        document.getElementById('inp_flowerNote').value=this.cells[11].innerText;
-        document.getElementById('inp_codeOrder').value=this.cells[4].innerText;
-        document.getElementById('inp_comment').value=this.cells[12].innerText;
+
+
+        document.getElementById('inp_statusOrder').value=this.cells[1].innerText;
+        document.getElementById('inp_nameSender').value=this.cells[2].innerText;
+        document.getElementById('inp_address').value=this.cells[11].innerText;
+        document.getElementById('inp_mobile').value=this.cells[6].innerText;
+        document.getElementById('inp_tel').value=this.cells[7].innerText;
+        document.getElementById('inp_nameReciver').value=this.cells[3].innerText;
+        document.getElementById('inp_codeProduct').value=this.cells[4].innerText;
+        document.getElementById('inp_deliveryDate').value=this.cells[8].innerText;
+        document.getElementById('inp_startTime').value=this.cells[9].innerText;
+        document.getElementById('inp_endTime').value=this.cells[10].innerText;
+        document.getElementById('inp_flowerNote').value=this.cells[12].innerText;
+        document.getElementById('inp_codeOrder').value=this.cells[5].innerText;
+        document.getElementById('inp_comment').value=this.cells[13].innerText;
     }
 
 
@@ -128,7 +153,7 @@ async function orders() {
 
 async function edit(){
 
-
+const statusOrder=document.getElementById('inp_statusOrder').value;
        const nameSender=document.getElementById('inp_nameSender').value;
        const address= document.getElementById('inp_address').value;
        const mobile= document.getElementById('inp_mobile').value;
@@ -143,14 +168,17 @@ async function edit(){
        const comment= document.getElementById('inp_comment').value;
 
      
-    const res=await fetch('https://orderflowers.onrender.com/orderEdit',{
+    const res=await fetch('/orderEdit',{
         method:'PATCH',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({nameSender:nameSender,mobile:mobile,tel:tel,nameReciver:nameReciver,codeProduct:codeProduct,address:address,deliveryDate:deliveryDate,startTime:startTime,endTime:endTime,flowerNote:flowerNote,codeOrder:codeOrder,comment:comment})
+        body:JSON.stringify({nameSender:nameSender,mobile:mobile,tel:tel,nameReciver:nameReciver,codeProduct:codeProduct,address:address,deliveryDate:deliveryDate,startTime:startTime,endTime:endTime,flowerNote:flowerNote,codeOrder:codeOrder,comment:comment,statusOrder:statusOrder})
 
     });
 
-alert('edit');
+    if(res.ok)
+        alert('ویرایش شد');
+    else
+        alert('ویرایش با مشکل مواجه شد')
 }
 
 
@@ -161,7 +189,7 @@ async function del(){
 
 const codeOrder=document.getElementById('inp_codeOrder').value;
 
-const res=await fetch('https://orderflowers.onrender.com/del',{
+const res=await fetch('/del',{
     method:'DELETE',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({code:codeOrder})
@@ -240,7 +268,7 @@ isLoadedPanelProducts=true;
 
 
 
-const res=await fetch('https://orderflowers.onrender.com/productsShowList',{
+const res=await fetch('/productsShowList',{
     method:'GET',
     headers:{'Content-Type':'text/json'},    
 })
@@ -354,7 +382,7 @@ async function delProduct(codeProduct){
 if(!confirm('\n\n\n\n\n\n '+'محصول حذف شود؟'+'\n')){
     return;
 }
-    const r=await fetch('https://orderflowers.onrender.com/confirmProduct',{
+    const r=await fetch('/confirmProduct',{
         method:'POST',
         headers:{'Content-Type':'text/plain'},
         body:codeProduct
@@ -375,31 +403,49 @@ if(!confirm('\n\n\n\n\n\n '+'محصول حذف شود؟'+'\n')){
 
 
 async function editProduct(codeProduct){
-    alert('edit');
+   
     
-    const data={
-                name:document.getElementById("inpName"+codeProduct).value,
-                codeProduct:document.getElementById('inpCode'+codeProduct).value,
-                price:document.getElementById('inpPrice'+codeProduct).value
-    }
+    const codeProductNew=document.getElementById('inpCode'+codeProduct).value;
+        const name=document.getElementById("inpName"+codeProduct).value;              
+            const price=document.getElementById('inpPrice'+codeProduct).value;
+    
     
 
-console.log(data,'NNNN:',codeProduct);
 
-const codeBefor=codeProduct;
-    const result=await fetch('https://orderflowers.onrender.com/editProd',{
-        method:'patch',
+
+const codeProductOld=codeProduct;
+    const result=await fetch('/editProd',{
+        method:'PATCH',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({data,codeBefor})
-    })
+        body:JSON.stringify({codeProductOld,codeProductNew,name,price})
+    });
 
     const answer=await result.json();
 
-    if(answer==='successful')
+    if(answer.status==='success')
     {
-
-alert('update shooooooood');
+       const msg= document.createElement('div');
+       msg.innerHTML='&nbsp'+'<span style="all:unset;background:green;color:white;font-size:xsmall;"> ✓&nbsp  ویرایش شد  </span>';
+       document.getElementById(codeProduct).appendChild(msg);
+       msg.style.display='block';
+       setTimeout(()=>msg.style.display='none',3000);
     }
+    else if(answer.status==='repetitive'){
+           const msg= document.createElement('div');
+            msg.innerHTML='&nbsp'+'<span style="all:unset;background:red;color:white;font-size:xsmall;"> X&nbsp  خطا... \nاحتمالاکدمحصول تکراری است </span>';
+            document.getElementById(codeProduct).appendChild(msg);
+            msg.style.display='block';
+            setTimeout(()=>msg.style.display='none',3000);
+    }
+    else{
+        const msg= document.createElement('div');
+            msg.innerHTML='&nbsp'+'<span style="all:unset;background:red;color:white;font-size:xsmall;"> X&nbsp خطای نامعلوم</span>';
+            document.getElementById(codeProduct).appendChild(msg);
+            msg.style.display='block';
+            setTimeout(()=>msg.style.display='none',3000);
+
+    }
+
 
 
 }
@@ -457,7 +503,7 @@ if(document.getElementById('inp_nameProductForAdd').value==='' || document.getEl
 
 
     
-    const res=await fetch('https://orderflowers.onrender.com/newProduct',{
+    const res=await fetch('/newProduct',{
         method:'POST',     
         headers:{'Type-Content':'text/json'},
         body:fd
