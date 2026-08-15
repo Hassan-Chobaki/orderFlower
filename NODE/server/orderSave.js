@@ -33,7 +33,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.set('trust proxy', 1);
+
 
 
 
@@ -43,8 +43,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: false,
+        sameSite: "lax",
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
@@ -242,14 +242,15 @@ app.patch('/orderEdit', async (req, res) => {
         endTime,
         flowerNote,
         codeOrder,
-        comment
+        comment,
+        statusOrder
 
 
     } = req.body;
     try {
-        const update = await db.query('UPDATE orders SET customerName=?,mobile=?,phone=?,receiverName=?,codeProduct=?,deliveryAddress=?,deliveryDate=?,startTime=?,endTime=?,flowerNote=?,code=?,comments=? WHERE code=?'
-            , [nameSender, mobile, tel, nameReciver, codeProduct, address, deliveryDate, startTime, endTime, flowerNote, codeOrder, comment, codeOrder]);
-
+        const update = await db.query('UPDATE orders SET customerName=?,mobile=?,phone=?,receiverName=?,codeProduct=?,deliveryAddress=?,deliveryDate=?,startTime=?,endTime=?,flowerNote=?,code=?,comments=?,statusOrder=? WHERE code=?'
+            , [nameSender, mobile, tel, nameReciver, codeProduct, address, deliveryDate, startTime, endTime, flowerNote, codeOrder, comment, statusOrder,codeOrder]);
+console.log(update);
         res.json({ ok: true, affectedRows: res.affectedRows });
 
     } catch (err) {
@@ -360,24 +361,61 @@ app.post('/newProduct', upload.single('file'), async (req, res) => {
 
 
 
+ app.patch('/editProd',async (req,res)=>{
+try{
+    const {codeProductOld,codeProductNew,name,price}=req.body;
 
-app.patch('/editProd', (req, res) => {
+    const [row]=await db.query('SELECT * FROM products WHERE codeProduct=?',[codeProductNew]);
+    if(row.length>0){
+        res.status(400).json({"status":"repetitive"});
+        return;
+    }
 
-    const { name, codeProductBefor, price, codeProductAfter } = req.body;
-    console.log('old code', codeProductBefor, '\nnew code:', codeProductAfter);
-    const update = db.execute('UPDATE products SET name=?,codeProduct=?,price=? WHERE codeProduct=?', [name, codeProductAfter, price, codeProductBefor]);
-    res.json({ success: 'success' });
+    const [status]=await db.query('UPDATE products SET codeProduct=?,name=?,price=? WHERE codeProduct=?',[codeProductNew,name,price,codeProductOld]);
 
-})
+}catch(err){    
+    res.status(500).json({"status":"fail"});
+    return;
+}
+res.json({"status":"success"});
 
-
-
-
-
+ });
 
 
-const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`start server on port ${PORT}`);
+
+ app.post('/checkStatus',async(req,res)=>{
+
+    const {mobile,code}=req.body;
+    if(!mobile&&!code)
+    {
+        res.status(400).json({"status":"not fill"});
+        return;
+    }
+    else{
+
+console.log('+++++');
+
+
+        const [row]=await db.query('SELECT * FROM orders WHERE mobile=? AND code=?',[mobile,code]); console.log(row[0]);
+        if(row.length>0){
+            res.json({"status":"success","data":row[0]});
+            return;
+        }
+        else{
+            res.status(404).json({"status":"not found"});
+            return;
+        }
+    }
+
+ });
+
+
+
+
+app.listen(3000, "0.0.0.0", () => {
+
+    console.log('start server....');
+
+
 });
