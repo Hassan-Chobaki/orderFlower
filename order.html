@@ -10,17 +10,14 @@
   box-sizing:border-box;
 }
 
-@font-face {
-  font-family: "is";
-  src: url("font/IRANSans.woff2") format("woff2");
-}
+
 
 body{
   margin:0;
  
   direction:rtl;
 
- font-family: "is";
+ font-family:var(--fontname);
   display:flex;
   justify-content:center;
 
@@ -306,7 +303,7 @@ const part = format.formatToParts(new Date());
   </div>
 
 </div>
-
+<link type="text/css" rel="stylesheet" href="theme.css">
 <script src="script.js"></script>
 </body>
 </html>

@@ -1,4 +1,23 @@
+
+@font-face {
+  font-family: "ISfont";
+  src: url("font/IRANSans.woff2") format("woff2");
+  font-size: 12px;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
 :root{
+                            --bgcolorBody:#FFF;
 
                             --bgcolor:#FFF;
                             --txtcolor:#FFF;
@@ -9,6 +28,7 @@
                             --fontsizeS:10px;
                             --fontsizeB:14px;
                             --padding:12px;
+                            --fontname:'ISfont',sans-serif;
 
 
 }

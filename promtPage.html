@@ -82,22 +82,19 @@ button::after{
 <body>
     <div class="container">
         <h4 id="h4"></h4>
-        <p id="pcode"> </p><span id="code" style="background-color: rgb(209, 233, 174) ;color: rgb(255, 0, 0);fontSize:14px;"></span>
-        <p id='plz'></p>
-    
+        <p id="p"> </p><span id="code" style="background-color: rgb(209, 233, 174) ;color: rgb(255, 0, 0);"></span>
+<div>
         <button class="btnBack" type="button" onclick=location.href="index.html">بازگشت</button>
 </div>
 
-    
+    </div>
 <script>
 const msg=new URLSearchParams(window.location.search).get("msg");
 
     if(msg==="register"){
      document.getElementById('h4').textContent="سفارش باموفقیت ثبت شد";
-     document.getElementById('code').textContent=sessionStorage.getItem("orderCode")//.toLocaleString("fa-IR",{useGrouping:false);
-                                                                      .replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);                      
-     document.getElementById('pcode').textContent="کدپیگیری";
-     document.getElementById('plz').textContent=" لطفاکدرانزدخودحفظ بفرمایید ";
+     document.getElementById('code').textContent=sessionStorage.getItem("orderCode");
+     document.getElementById('p').textContent="کدپیگیری";
      
     }
     else if(msg==="cancel")

@@ -3,12 +3,12 @@
 async function ps() {   
 
 
-const res=await fetch("https://orderflowers.onrender.com/products",{
+const res=await fetch("http://192.168.1.100:3000/products",{
                                 method:"GET",
                                 headers:{"Content-Type":"application/json"}
                     });
 const data=await res.json();
-document.getElementById('loading').style.display='none';
+
 data.forEach(pics => {
 console.log(data);
     const img = document.createElement("img");
@@ -17,8 +17,6 @@ console.log(data);
     const price=document.createElement("p");
     frame.classList.add("mainFrame");
 
-    console.log("adress="+pics.address);
-    console.log("realName="+pics.realname);
 
     img.src = pics.address;
     img.style.width = "100%";
@@ -41,13 +39,10 @@ console.log(data);
 const order=document.createElement("a");
 
 order.textContent="سفارش این محصول";
-  if(window.innerWidth>650)
 order.style.fontSize="200%";
-  else
-    order.style.fontSize="12px";
 order.style.color="#f3ff0c";
 order.style.cursor="pointer";
-order.style.textShadow="1px 1px 2px black,0 0 1em yellow, 0 0 0.2em yellow;";
+order.style.textShadow="1px 1px 2px black,0 0 1em blue, 0 0 0.2em blue; color: white;"
 order.style.transform="scale(1.5)";
 
 order.onclick=()=>{
@@ -59,7 +54,7 @@ order.onclick=()=>{
     
 
                         
-                    sessionStorage.setItem("selectedProduct",JSON.stringify(prod));console.log(prod);
+                    sessionStorage.setItem("selectedProduct",JSON.stringify(prod));
                     location.href="order.html";
 
                    }
@@ -69,7 +64,7 @@ order.onclick=()=>{
 
 
 const detail=document.createElement('a');
-detail.style.fontSize='10px';
+detail.style.fontSize='14px';
 detail.innerHTML=" &nbsp; مشخصات &nbsp;";
 detail.style.position='fixed';
 detail.style.left=0;
@@ -130,3 +125,5 @@ cardDetail.innerHTML=`
 
 
 }
+
+document.getElementById('loading').style.display='none';

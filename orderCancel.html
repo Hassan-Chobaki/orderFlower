@@ -108,6 +108,11 @@ button::after{
   background: #03760c8d;
   transform: translate(-50%, -50%) scale(0.95);
 }
+
+button:disabled{
+  background:rgba(3, 118, 12, 0.5);
+  cursor:not-allowed;
+}
      
 h2{
   text-align:center;
@@ -119,9 +124,7 @@ h2{
     display: inline-flexbox;
 }
 .popup{
-    position: absolute;
-    top: 110%;
-    left: 20%;
+    position: absolute;    
     color: white;
     background: #f0191292;
     display: none;
@@ -164,7 +167,18 @@ h2{
                 
             </div>
 
+
+
             <form class="form" id="cancelForm" autocomplete="off" novalidate >
+
+
+
+
+
+                <div class="itemsInput">
+
+
+                    
                 <div class="field">
                     <label for="mobile">شماره مبایل</label>
                     <div class="input-wrapper">
@@ -192,13 +206,24 @@ h2{
                     
                 </div>
 
+                <button type="button" id="btnCheck">بررسی سفارش</button>
+
+                </div>
+
+                <hr>
+
+
+
+<div id="popupNfillOne" class="popup"><span style="font-weight: bolder;"> ⚠ </span>لطفامقادیرراکامل کنید</div>
+
+
                 <div class="actions">
                     <div > 
                         <button type="button" id="resetBtn" onclick=window.location.href="index.html"> بازگشت </button>
                     </div>
                     <div class="btnPopup">
 
-                        <button type="button" id="submitBtn">                        
+                        <button type="button" id="submitBtn" disabled="true">                        
                             ثبت درخواست کنسلی
                         </button>
                         <div id="popupNfound" class="popup"><span style="font-weight: bolder;"> ⚠ </span>سفارش یافت نشد</div>

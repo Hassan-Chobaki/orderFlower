@@ -30,7 +30,7 @@ if(prod)
 
 async function fillRecord() {
     
-const res=await fetch ("https://orderflowers.onrender.com/products");//,{method:'GET',headers:{'Content-Type':'Application-json'}});
+const res=await fetch ("http://192.168.1.100:3000/products");//,{method:'GET',headers:{'Content-Type':'Application-json'}});
 const data= await res.json();
    
  const elementSelect=document.getElementById("codeProduct");
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                                 if(customerName.value.trim() === '' || mobile.value.trim() === '' || phone.value.trim() === '' || receiverName.value.trim() === '' || deliveryAddress.value.trim() === '' || deliveryDate.value.trim() === '' || startTime.value.trim() === '' || endTime.value.trim() === ''||codeProduct.value.trim()==='') {
                                  alert('لطفا تمام فیلدها را پر کنید');
-                                 return;    
+                                // return;    
                                 
                                 }
 
@@ -153,12 +153,21 @@ document.addEventListener('DOMContentLoaded', function() {
                                     codeProduct:codeProduct.value
                                 };
 
+const [Y,M,D]=deliveryDate.value.split('/');
+const todayDate=new Intl.DateTimeFormat('FA-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+const yearNow=todayDate.find(x=>x.type==='year').value;
+const monthNow=todayDate.find(x=>x.type==='month').value;
+const dayNow=todayDate.find(x=>x.type==='day').value;
+
+if(Y<yearNow || M<monthNow || D<=dayNow)
+    alert('تاریخ');
+
 
 async function sendData() {
                          try{
 
 
-                                const result=await fetch('https://orderflowers.onrender.com/orderSave',{
+                                const result=await fetch('http://192.168.1.100:3000/orderSave',{
                                     method:'POST',
                                     headers:{   
                                         'Content-Type': 'application/json'
